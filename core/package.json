@@ -1,5 +1,6 @@
 {
     "name": "@empyry/core",
+    "version": "0.0.0",
     "description": "The core of Empyry",
     "private": true
 }
