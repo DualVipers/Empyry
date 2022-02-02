@@ -6,14 +6,7 @@ module.exports = {
             "always",
             ["sentence-case", "start-case", "lower-case"],
         ],
-        "scope-enum": [
-            2,
-            "always",
-            ["root", "core"],
-        ],
-        "scope-empty": [
-            2,
-            "never",
-        ],
+        "scope-enum": [2, "always", ["root", "core"]],
+        "scope-empty": [2, "never"],
     },
 };
