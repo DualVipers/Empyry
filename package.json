@@ -1,0 +1,14 @@
+{
+    "name": "empyry",
+    "description": "The One Stop Package Registry That Is Out Of This World!",
+    "private": true,
+    "devDependencies": {
+        "cz-conventional-changelog": "3.3.0",
+        "lerna": "4.0.0"
+    },
+    "config": {
+        "commitizen": {
+            "path": "./node_modules/cz-conventional-changelog"
+        }
+    }
+}
