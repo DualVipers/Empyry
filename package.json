@@ -2,6 +2,11 @@
     "name": "empyry",
     "description": "The One Stop Package Registry That Is Out Of This World!",
     "private": true,
+    "scripts": {
+        "lint": "eslint",
+        "prettier": "prettier --check .",
+        "setup": "yarn install --frozen-lockfile && lerna bootstrap && lerna link"
+    },
     "devDependencies": {
         "cz-conventional-changelog": "3.3.0",
         "eslint": "8.8.0",
