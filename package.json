@@ -1,6 +1,16 @@
 {
     "name": "empyry",
     "description": "The One Stop Package Registry That Is Out Of This World!",
+    "author": "Dual Vipers",
+    "license": "Apache-2.0",
+    "homepage": "https://empyry.com",
+    "bugs": {
+        "url": "https://github.com/DualVipers/uvae/issues"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/DualVipers/uvae"
+    },
     "private": true,
     "scripts": {
         "lint": "eslint",
@@ -15,6 +25,9 @@
         "lerna": "4.0.0",
         "prettier": "2.5.1"
     },
+    "workspaces": [
+        "core"
+    ],
     "config": {
         "commitizen": {
             "path": "./node_modules/cz-conventional-changelog"
