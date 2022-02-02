@@ -1,0 +1,14 @@
+tasks:
+    - before: npm install --global yarn
+    - before: npm install --global commitizen
+    - before: yarn run setup
+
+github:
+    prebuilds:
+        pullRequestsFromForks: true
+        addComment: true
+
+vscode:
+    extensions:
+        - esbenp.prettier-vscode
+        - dbaeumer.vscode-eslint
