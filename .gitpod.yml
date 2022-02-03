@@ -1,7 +1,8 @@
 tasks:
-    - before: npm install --global yarn
-    - before: npm install --global commitizen
-    - before: yarn run setup
+    - before: |
+          npm install --global yarn
+          npm install --global commitizen
+          yarn run setup
 
 github:
     prebuilds:
