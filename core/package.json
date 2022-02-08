@@ -2,5 +2,12 @@
     "name": "@empyry/core",
     "version": "0.0.0",
     "description": "The core of Empyry",
-    "private": true
+    "private": true,
+    "dependencies": {
+        "sequelize": "7.0.0-alpha.5",
+        "sqlite3": "5.0.2"
+    },
+    "devDependencies": {
+        "sequelize-cli": "6.4.1"
+    }
 }
