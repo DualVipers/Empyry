@@ -3,6 +3,17 @@ import { join } from "path";
 import readFile from "../readFile";
 import { data } from "../paths";
 
+/**
+ * Loads a Package Version
+ *
+ * @param {string} name - The name of the Package
+ * @param {Object} version - The version of the Package
+ * @param {number} version.major - The Major integer for the Package Version
+ * @param {number} version.minor - The Minor integer for the Package Version
+ * @param {number} version.patch - The Patch integer for the Package Version
+ *
+ * @returns {Promise<Buffer>} The buffer of the Package Version
+ */
 export default async (name, version) => {
     const fileName = `${name}-${version.major}.${version.minor}.${version.patch}.tar.gz`;
 
