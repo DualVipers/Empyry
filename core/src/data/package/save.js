@@ -9,7 +9,7 @@ import { data } from "../paths";
  *
  * @param {Buffer} file - The .tar.gz file to save
  * @param {string} name - The name of the Package
- * @param {Object} version - The version of the Package
+ * @param {Object} version - The SemVer version of the Package
  * @param {number} version.major - The Major integer for the Package Version
  * @param {number} version.minor - The Minor integer for the Package Version
  * @param {number} version.patch - The Patch integer for the Package Version
