@@ -4,6 +4,9 @@
     "description": "The core of Empyry",
     "private": true,
     "dependencies": {
+        "env-paths": "3.0.0",
+        "fs-extra": "10.0.1",
+        "hasha": "^5.2.2",
         "sequelize": "7.0.0-alpha.5",
         "sqlite3": "5.0.2"
     },

@@ -2074,6 +2074,11 @@ encoding@^0.1.12:
   dependencies:
     iconv-lite "^0.6.2"
 
+env-paths@3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/env-paths/-/env-paths-3.0.0.tgz#2f1e89c2f6dbd3408e1b1711dd82d62e317f58da"
+  integrity sha512-dtJUTepzMW3Lm/NPxRf3wP4642UWhjL2sQxc+ym2YMj1m/H2zDNQOlezafzkHwn6sMstjHTwG6iQQsctDW/b1A==
+
 env-paths@^2.2.0:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/env-paths/-/env-paths-2.2.1.tgz#420399d416ce1fbe9bc0a07c62fa68d67fd0f8f2"
@@ -2503,6 +2508,15 @@ form-data@~2.3.2:
     combined-stream "^1.0.6"
     mime-types "^2.1.12"
 
+fs-extra@10.0.1:
+  version "10.0.1"
+  resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-10.0.1.tgz#27de43b4320e833f6867cc044bfce29fdf0ef3b8"
+  integrity sha512-NbdoVMZso2Lsrn/QwLXOy6rm0ufY2zEOKCDzJR/0kBsb0E6qed0P3iYK+Ath3BfvXEeu4JhEtXLgILx5psUfag==
+  dependencies:
+    graceful-fs "^4.2.0"
+    jsonfile "^6.0.1"
+    universalify "^2.0.0"
+
 fs-extra@8.1.0:
   version "8.1.0"
   resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-8.1.0.tgz#49d43c45a88cd9677668cb7be1b46efdb8d2e1c0"
@@ -2839,6 +2853,14 @@ has@^1.0.3:
   integrity sha512-f2dvO0VU6Oej7RkWJGrehjbzMAjFp5/VKPp5tTpWIV4JHHZK1/BxbFRtf/siA2SWTe09caDmVtYYzWEIbBS4zw==
   dependencies:
     function-bind "^1.1.1"
+
+hasha@^5.2.2:
+  version "5.2.2"
+  resolved "https://registry.yarnpkg.com/hasha/-/hasha-5.2.2.tgz#a48477989b3b327aea3c04f53096d816d97522a1"
+  integrity sha512-Hrp5vIK/xr5SkeN2onO32H0MgNZ0f17HRNH39WfL0SYUNOTZ5Lz1TJ8Pajo/87dYGEFlLMm7mIc/k/s6Bvz9HQ==
+  dependencies:
+    is-stream "^2.0.0"
+    type-fest "^0.8.0"
 
 homedir-polyfill@^1.0.1:
   version "1.0.3"
@@ -5483,7 +5505,7 @@ type-fest@^0.6.0:
   resolved "https://registry.yarnpkg.com/type-fest/-/type-fest-0.6.0.tgz#8d2a2370d3df886eb5c90ada1c5bf6188acf838b"
   integrity sha512-q+MB8nYR1KDLrgr4G5yemftpMC7/QLqVndBmEEdqzmNj5dcFOO4Oo8qlwZE3ULT3+Zim1F8Kq4cBnikNhlCMlg==
 
-type-fest@^0.8.1:
+type-fest@^0.8.0, type-fest@^0.8.1:
   version "0.8.1"
   resolved "https://registry.yarnpkg.com/type-fest/-/type-fest-0.8.1.tgz#09e249ebde851d3b1e48d27c105444667f17b83d"
   integrity sha512-4dbzIzqvjtgiM5rw1k5rEHtBANKmdudhGyBEajN01fEyhaAIhsoKNy6y7+IN93IfpFtwY9iqi7kD+xwKhQsNJA==
