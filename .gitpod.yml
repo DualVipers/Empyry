@@ -2,6 +2,7 @@ tasks:
     - before: |
           npm install --global yarn
           npm install --global commitizen
+          npm install --global sqlite3
           yarn run setup
 
 github:
@@ -13,3 +14,5 @@ vscode:
     extensions:
         - esbenp.prettier-vscode
         - dbaeumer.vscode-eslint
+        - mtxr.sqltools
+        - mtxr.sqltools-driver-sqlite

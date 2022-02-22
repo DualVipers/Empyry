@@ -14,5 +14,14 @@
     },
     "[yaml]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
-    }
+    },
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "driver": "SQLite",
+            "name": "Testing Database",
+            "database": "${workspaceFolder:Empyry}/core/database.sqlite"
+        }
+    ],
+    "sqltools.useNodeRuntime": true
 }
