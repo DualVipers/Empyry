@@ -6,7 +6,7 @@
         "node": true
     },
     "parserOptions": {
-        "ecmaVersion": 2020,
+        "ecmaVersion": 13,
         "sourceType": "module"
     },
     "rules": {
