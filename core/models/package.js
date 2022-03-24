@@ -18,8 +18,31 @@ module.exports = (sequelize, DataTypes) => {
 
     Package.init(
         {
-            name: { allowNull: false, type: DataTypes.STRING },
-            description: { type: DataTypes.STRING },
+            name: {
+                allowNull: false,
+                type: DataTypes.STRING,
+            },
+            platform: {
+                allowNull: false,
+                type: DataTypes.STRING,
+            },
+            description: {
+                type: DataTypes.STRING,
+            },
+            source: {
+                type: DataTypes.STRING,
+            },
+            home: {
+                type: DataTypes.STRING,
+            },
+            createdAt: {
+                allowNull: false,
+                type: DataTypes.DATE,
+            },
+            updatedAt: {
+                allowNull: false,
+                type: DataTypes.DATE,
+            },
         },
         {
             sequelize,
