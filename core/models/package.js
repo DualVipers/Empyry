@@ -1,6 +1,6 @@
 "use strict";
 
-const { Model } = require("sequelize");
+const { Model } = require("@sequelize/core");
 
 module.exports = (sequelize, DataTypes) => {
     class Package extends Model {

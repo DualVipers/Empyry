@@ -1089,6 +1089,27 @@
   dependencies:
     "@octokit/openapi-types" "^11.2.0"
 
+"@sequelize/core@7.0.0-alpha.10":
+  version "7.0.0-alpha.10"
+  resolved "https://registry.yarnpkg.com/@sequelize/core/-/core-7.0.0-alpha.10.tgz#dbc2c1010bd265f6d9a242614b69f47d190a6846"
+  integrity sha512-uikpWaCiIaijsgoa9cH+3jCQl8r+FaQPhoE8AOJYvPwxOx52E1JZnRPMXNnlpbFy3Xu0qekrc5LBJq7IR8UB0Q==
+  dependencies:
+    "@types/debug" "^4.1.7"
+    debug "^4.3.3"
+    dottie "^2.0.2"
+    inflection "^1.13.1"
+    lodash "^4.17.21"
+    moment "^2.29.1"
+    moment-timezone "^0.5.34"
+    pg-connection-string "^2.5.0"
+    retry-as-promised "^5.0.0"
+    semver "^7.3.5"
+    sequelize-pool "^7.1.0"
+    toposort-class "^1.0.1"
+    uuid "^8.3.2"
+    validator "^13.7.0"
+    wkx "^0.5.0"
+
 "@tootallnate/once@1":
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/@tootallnate/once/-/once-1.1.2.tgz#ccb91445360179a04e7fe6aff78c00ffc1eeaf82"
@@ -4996,27 +5017,6 @@ sequelize-pool@^7.1.0:
   version "7.1.0"
   resolved "https://registry.yarnpkg.com/sequelize-pool/-/sequelize-pool-7.1.0.tgz#210b391af4002762f823188fd6ecfc7413020768"
   integrity sha512-G9c0qlIWQSK29pR/5U2JF5dDQeqqHRragoyahj/Nx4KOOQ3CPPfzxnfqFPCSB7x5UgjOgnZ61nSxz+fjDpRlJg==
-
-sequelize@7.0.0-alpha.5:
-  version "7.0.0-alpha.5"
-  resolved "https://registry.yarnpkg.com/sequelize/-/sequelize-7.0.0-alpha.5.tgz#991c298e7018449840146eaf951498e5d225d936"
-  integrity sha512-CvbX/FCZgt4RMXsF5GoaBpSP/X60MODTO3POvJmLLpu3NLTq6bNuFBpJQMGIEKBZuRj10dj+M72REDQ+XXkzug==
-  dependencies:
-    "@types/debug" "^4.1.7"
-    debug "^4.3.3"
-    dottie "^2.0.2"
-    inflection "^1.13.1"
-    lodash "^4.17.21"
-    moment "^2.29.1"
-    moment-timezone "^0.5.34"
-    pg-connection-string "^2.5.0"
-    retry-as-promised "^5.0.0"
-    semver "^7.3.5"
-    sequelize-pool "^7.1.0"
-    toposort-class "^1.0.1"
-    uuid "^8.3.2"
-    validator "^13.7.0"
-    wkx "^0.5.0"
 
 set-blocking@~2.0.0:
   version "2.0.0"

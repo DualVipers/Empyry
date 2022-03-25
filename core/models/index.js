@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import Sequelize from "sequelize";
+import Sequelize from "@sequelize/core";
 import { fileURLToPath } from "url";
 
 import configFile from "../config/config.json";
