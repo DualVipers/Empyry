@@ -35,6 +35,9 @@ module.exports = (sequelize, DataTypes) => {
             home: {
                 type: DataTypes.STRING,
             },
+            license: {
+                type: DataTypes.STRING,
+            },
             createdAt: {
                 allowNull: false,
                 type: DataTypes.DATE,

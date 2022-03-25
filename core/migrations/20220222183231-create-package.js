@@ -26,6 +26,9 @@ module.exports = {
             home: {
                 type: Sequelize.STRING,
             },
+            license: {
+                type: Sequelize.STRING,
+            },
             createdAt: {
                 allowNull: false,
                 type: Sequelize.DATE,
