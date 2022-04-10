@@ -1,3 +1,5 @@
+import { debug, info, warn } from "./logger";
+
 export default class {
     #data = {};
 
@@ -9,8 +11,13 @@ export default class {
         for (const sublocation in sublocations) {
             data = data[sublocation];
 
-            if (typeof data == "undefined") return undefined;
+            if (typeof data == "undefined") {
+                warn(`Could Not Find Value For ${location}`);
+                return undefined;
+            }
         }
+
+        debug(`Found Value ${data} For ${location}`);
 
         return data;
     }
@@ -27,6 +34,8 @@ export default class {
             }
 
             newData = { ...newData, ...data };
+
+            info(`Set ${change.location} To ${change.value}`);
         }
 
         this.#data = { ...this.#data, ...newData };
