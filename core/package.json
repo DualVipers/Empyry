@@ -9,7 +9,7 @@
         "env-paths": "3.0.0",
         "fs-extra": "10.0.1",
         "hasha": "5.2.2",
-        "sqlite3": "5.0.2"
+        "sqlite3": "npm:@vscode/sqlite3@5.0.8"
     },
     "devDependencies": {
         "sequelize-cli": "6.4.1"
