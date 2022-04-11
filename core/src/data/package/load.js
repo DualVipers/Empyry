@@ -3,6 +3,8 @@ import { join } from "path";
 import readFile from "../readFile";
 import { data } from "../paths";
 
+import { error } from "../../logger";
+
 /**
  * Loads a Package Version
  *
@@ -22,7 +24,8 @@ export default async (name, version) => {
     try {
         return await readFile(filePath);
     } catch (err) {
-        console.log(
+        error(
+            { err: err },
             `Could Not Load v${version.major}.${version.minor}.${version.patch} of ${name}`
         );
 

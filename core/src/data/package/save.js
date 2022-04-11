@@ -3,6 +3,8 @@ import { join } from "path";
 import saveFile from "../saveFile";
 import { data } from "../paths";
 
+import { error } from "../../logger";
+
 /**
  * Creates a buffer as the specified Package Version
  * This does not create the SQL entry!
@@ -24,7 +26,8 @@ export default async (file, name, version) => {
     try {
         await saveFile(filePath, file);
     } catch (err) {
-        console.log(
+        error(
+            { err: err },
             `Could Not Save v${version.major}.${version.minor}.${version.patch} of ${name}`
         );
 

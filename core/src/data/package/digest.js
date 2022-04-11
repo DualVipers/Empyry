@@ -1,5 +1,7 @@
-import readFile from "../readFile";
+import load from "./load";
 import hashFile from "../hashFile";
+
+import { error } from "../../logger";
 
 /**
  * Creates a hash for the specified Package Version
@@ -14,11 +16,12 @@ import hashFile from "../hashFile";
  */
 export default async (name, version) => {
     try {
-        const file = readFile(name, version);
+        const file = load(name, version);
 
         return await hashFile(file);
     } catch (err) {
-        console.log(
+        error(
+            { err: err },
             `Could Not Hash v${version.major}.${version.minor}.${version.patch} of ${name}`
         );
 
