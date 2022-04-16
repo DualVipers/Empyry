@@ -11,7 +11,8 @@ github:
 
 vscode:
     extensions:
-        - esbenp.prettier-vscode
+        - 42Crunch.vscode-openapi
         - dbaeumer.vscode-eslint
+        - esbenp.prettier-vscode
         - mtxr.sqltools
         - mtxr.sqltools-driver-sqlite

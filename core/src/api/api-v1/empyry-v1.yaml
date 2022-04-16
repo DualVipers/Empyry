@@ -1,0 +1,15 @@
+openapi: "3.0.1"
+info:
+    version: "1.0.0-alpha.0"
+    title: "Empyry v1"
+    license:
+        name: "Apache 2.0"
+        url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+paths:
+    /api-docs:
+        get:
+            description: "Access the v1 OpenAPI Definition"
+            operationId: "serveDefinition"
+            responses:
+                200:
+                    description: "ok"
