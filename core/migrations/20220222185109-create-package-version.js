@@ -31,6 +31,12 @@ module.exports = {
                 allowNull: false,
                 type: Sequelize.INTEGER,
             },
+            preReleased: {
+                type: Sequelize.STRING,
+            },
+            build: {
+                type: Sequelize.STRING,
+            },
             digest: {
                 type: Sequelize.STRING,
             },

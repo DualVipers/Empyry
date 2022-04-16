@@ -23,6 +23,8 @@ module.exports = (sequelize, DataTypes) => {
             major: { allowNull: false, type: DataTypes.INTEGER },
             minor: { allowNull: false, type: DataTypes.INTEGER },
             patch: { allowNull: false, type: DataTypes.INTEGER },
+            preRelease: { type: DataTypes.STRING },
+            build: { type: DataTypes.STRING },
             digest: { type: DataTypes.STRING },
         },
         {
