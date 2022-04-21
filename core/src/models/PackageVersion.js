@@ -1,3 +1,5 @@
+import { Model } from "objection";
+
 import Base from "./Base.js";
 import Package from "./Package.js";
 
@@ -10,6 +12,21 @@ class PackageVersion extends Base {
 
     static get tableName() {
         return "PackageVersions";
+    }
+
+    static get relationMappings() {
+        const Package = import("./Package.js");
+
+        return {
+            package: {
+                relation: Model.BelongsToOneRelation,
+                modelClass: Package,
+                join: {
+                    from: "PackageVersions.packageID",
+                    to: "Packages.id",
+                },
+            },
+        };
     }
 
     $beforeUpdate() {

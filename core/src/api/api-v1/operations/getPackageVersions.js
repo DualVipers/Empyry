@@ -1,9 +1,9 @@
-import { PackageVersion } from "../../../database.js";
+import { Package } from "../../../database.js";
 import logger from "../../../logger.js";
 
 export default async (c, req, res) => {
-    const packageVersions = await PackageVersion.query()
-        .where("packageID", c.request.params.packageID)
+    const packageVersions = await Package.relatedQuery("versions")
+        .for(c.request.params.packageID)
         .select(
             "id",
             "packageID",
