@@ -1,4 +1,4 @@
-import { debug, info, warn } from "./logger";
+import logger from "./logger.js";
 
 export default class {
     #data = {};
@@ -12,12 +12,12 @@ export default class {
             data = data[sublocation];
 
             if (typeof data == "undefined") {
-                warn(`Could Not Find Value For ${location}`);
+                logger.warn(`Could Not Find Value For ${location}`);
                 return undefined;
             }
         }
 
-        debug(`Found Value ${data} For ${location}`);
+        logger.debug(`Found Value ${data} For ${location}`);
 
         return data;
     }
@@ -35,7 +35,7 @@ export default class {
 
             newData = { ...newData, ...data };
 
-            info(`Set ${change.location} To ${change.value}`);
+            logger.info(`Set ${change.location} To ${change.value}`);
         }
 
         this.#data = { ...this.#data, ...newData };

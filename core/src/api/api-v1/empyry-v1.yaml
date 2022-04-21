@@ -1,15 +1,167 @@
-openapi: "3.0.1"
+openapi: 3.0.3
 info:
-    version: "1.0.0-alpha.0"
-    title: "Empyry v1"
+    version: 1.0.0-alpha.0
+    title: Empyry v1
     license:
-        name: "Apache 2.0"
-        url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+        name: Apache 2.0
+        url: http://www.apache.org/licenses/LICENSE-2.0.html
 paths:
     /api-docs:
         get:
-            description: "Access the v1 OpenAPI Definition"
-            operationId: "serveDefinition"
+            description: Access the v1 OpenAPI Definition
+            operationId: serveDefinition
             responses:
-                200:
-                    description: "ok"
+                "200":
+                    description: Serves the OpenAPI Definition JSON
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                "400":
+                    $ref: "#/components/responses/validation_failure"
+    /packages:
+        get:
+            description: Get a list of all Packages
+            operationId: getPackages
+            responses:
+                "200":
+                    description: An array of all Packages
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                minItems: 0
+                                items:
+                                    $ref: "#/components/schemas/Package"
+                "400":
+                    $ref: "#/components/responses/validation_failure"
+    /packages/{packageID}:
+        get:
+            description: Get a specific Package by packageID
+            operationId: getPackageByID
+            responses:
+                "200":
+                    description: The Package with the requested packageID
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Package"
+                "400":
+                    $ref: "#/components/responses/validation_failure"
+                "404":
+                    description: The Package does not exist
+        parameters:
+            - name: packageID
+              in: path
+              required: true
+              schema:
+                  type: integer
+    /packages/{packageID}/versions:
+        get:
+            description: Get all PackageVersions of a specific Package by packageID
+            operationId: getPackageVersions
+            responses:
+                "200":
+                    description: An array of all PackageVersions of the Package
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                minItems: 0
+                                items:
+                                    $ref: "#/components/schemas/PackageVersion"
+                "400":
+                    $ref: "#/components/responses/validation_failure"
+        parameters:
+            - name: packageID
+              in: path
+              required: true
+              schema:
+                  type: integer
+    /packages/{packageID}/versions/{version}:
+        get:
+            description: Get a specific PackageVersion of a Package by version
+            operationId: getPackageVersionByVersion
+            responses:
+                "200":
+                    description: ok
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/PackageVersion"
+                "400":
+                    $ref: "#/components/responses/validation_failure"
+                "404":
+                    description: There is no PackageVersion with the supplied version for the Package with the supplied packageID
+        parameters:
+            - name: packageID
+              in: path
+              required: true
+              schema:
+                  type: integer
+            - name: version
+              in: path
+              required: true
+              schema:
+                  type: string
+                  pattern: '^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$'
+
+components:
+    responses:
+        validation_failure:
+            description: The request was not properly formatted
+            content:
+                application/json:
+                    schema:
+                        type: object
+                        properties:
+                            err:
+                                type: array
+                                items:
+                                    type: object
+                                    properties:
+                                        instancePath:
+                                            type: string
+                                        schemaPath:
+                                            type: string
+                                        keyword:
+                                            type: string
+                                        params:
+                                            type: object
+                                        message:
+                                            type: string
+    schemas:
+        Package:
+            type: object
+            properties:
+                id:
+                    type: integer
+                name:
+                    type: string
+                description:
+                    type: string
+                source:
+                    type: string
+                home:
+                    type: string
+                license:
+                    type: string
+                created_at:
+                    type: string
+                updated_at:
+                    type: string
+        PackageVersion:
+            type: object
+            properties:
+                id:
+                    type: integer
+                packageID:
+                    type: string
+                version:
+                    type: string
+                digest:
+                    type: string
+                created_at:
+                    type: string
+                updated_at:
+                    type: string

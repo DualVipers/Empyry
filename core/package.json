@@ -5,21 +5,24 @@
     "private": true,
     "type": "module",
     "scripts": {
-        "start": "node ./src/Empyry.js"
+        "migrate": "cross-env MIGRATION=true node ./src/migrate.js",
+        "output": "bunyan ./testing.log",
+        "start": "node ./src/Empyry.js | bunyan -o short"
     },
     "dependencies": {
-        "@sequelize/core": "7.0.0-alpha.10",
+        "@vscode/sqlite3": "5.0.8",
         "bunyan": "1.8.15",
+        "cross-env": "7.0.3",
         "env-paths": "3.0.0",
         "express": "4.17.3",
-        "fs-extra": "10.0.1",
+        "fs-extra": "10.1.0",
         "hasha": "5.2.2",
-        "node-auto-loader": "1.1.2",
+        "knex": "1.0.7",
+        "objection": "3.0.1",
         "openapi-backend": "5.3.0",
-        "sqlite3": "npm:@vscode/sqlite3@5.0.8",
-        "waymaker": "0.0.2"
+        "waymaker": "0.1.0"
     },
     "devDependencies": {
-        "sequelize-cli": "6.4.1"
+        "yarn-audit-fix": "9.3.0"
     }
 }

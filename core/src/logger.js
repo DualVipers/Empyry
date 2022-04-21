@@ -1,6 +1,9 @@
 import { createLogger } from "bunyan";
 import { join } from "path";
 import envPaths from "env-paths";
+import { fileURLToPath } from "url";
+
+const __dirname = fileURLToPath(import.meta.url);
 
 const paths = envPaths("Empyry", {
     suffix: "",
@@ -19,7 +22,7 @@ if (process.env.NODE_ENV == "production") {
     });
 } else {
     logStreams.push({
-        path: join(__filename, "../testing.log"),
+        path: join(__dirname, "../../testing.log"),
         level: "trace",
     });
 }
@@ -29,6 +32,4 @@ const logger = createLogger({
     streams: logStreams,
 });
 
-const { fatal, warn, error, info, debug, trace } = logger;
-
-export { fatal, warn, error, info, debug, trace };
+export default logger;
