@@ -5,7 +5,7 @@
     "private": true,
     "type": "module",
     "scripts": {
-        "migrate": "cross-env MIGRATION=true node ./src/migrate.js",
+        "migrate": "cross-env MIGRATION=true node ./src/migrate.js | bunyan -o short",
         "output": "bunyan ./testing.log",
         "start": "node ./src/Empyry.js | bunyan -o short"
     },
