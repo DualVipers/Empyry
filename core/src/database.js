@@ -1,12 +1,18 @@
 import Knex from "knex";
 import { Model } from "objection";
+import { join } from "path";
+
 import logger from "./logger.js";
+import paths from "./paths.js";
 
 const knex = Knex({
     client: "sqlite3",
     useNullAsDefault: true,
     connection: {
-        filename: "database.sqlite",
+        filename:
+            process.env.NODE_ENV == "production"
+                ? join(paths.data, "database.sqlite")
+                : "database.sqlite",
     },
 });
 

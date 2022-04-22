@@ -1,13 +1,10 @@
 import { createLogger } from "bunyan";
 import { join } from "path";
-import envPaths from "env-paths";
 import { fileURLToPath } from "url";
 
-const __dirname = fileURLToPath(import.meta.url);
+import paths from "./paths.js";
 
-const paths = envPaths("Empyry", {
-    suffix: "",
-});
+const __dirname = fileURLToPath(import.meta.url);
 
 const outputLevel = process.env.NODE_ENV == "production" ? "info" : "debug";
 
