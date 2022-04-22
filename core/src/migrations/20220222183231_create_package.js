@@ -11,8 +11,7 @@ export const up = (knex) => {
         table.string("source");
         table.string("home");
         table.string("license");
-        table.date("created_at").notNullable().defaultTo(knex.fn.now());
-        table.date("updated_at").notNullable().defaultTo(knex.fn.now());
+        table.timestamps();
     });
 };
 

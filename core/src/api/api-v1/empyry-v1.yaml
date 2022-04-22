@@ -35,13 +35,13 @@ paths:
                                     $ref: "#/components/schemas/Package"
                 "400":
                     $ref: "#/components/responses/validation_failure"
-    /packages/{packageID}:
+    /packages/{package_id}:
         get:
-            description: Get a specific Package by packageID
+            description: Get a specific Package by package_id
             operationId: getPackageByID
             responses:
                 "200":
-                    description: The Package with the requested packageID
+                    description: The Package with the requested package_id
                     content:
                         application/json:
                             schema:
@@ -51,14 +51,14 @@ paths:
                 "404":
                     description: The Package does not exist
         parameters:
-            - name: packageID
+            - name: package_id
               in: path
               required: true
               schema:
                   type: integer
-    /packages/{packageID}/versions:
+    /packages/{package_id}/versions:
         get:
-            description: Get all PackageVersions of a specific Package by packageID
+            description: Get all PackageVersions of a specific Package by package_id
             operationId: getPackageVersions
             responses:
                 "200":
@@ -73,12 +73,12 @@ paths:
                 "400":
                     $ref: "#/components/responses/validation_failure"
         parameters:
-            - name: packageID
+            - name: package_id
               in: path
               required: true
               schema:
                   type: integer
-    /packages/{packageID}/versions/{version}:
+    /packages/{package_id}/versions/{version}:
         get:
             description: Get a specific PackageVersion of a Package by version
             operationId: getPackageVersionByVersion
@@ -92,9 +92,9 @@ paths:
                 "400":
                     $ref: "#/components/responses/validation_failure"
                 "404":
-                    description: There is no PackageVersion with the supplied version for the Package with the supplied packageID
+                    description: There is no PackageVersion with the supplied version for the Package with the supplied package_id
         parameters:
-            - name: packageID
+            - name: package_id
               in: path
               required: true
               schema:
@@ -155,7 +155,7 @@ components:
             properties:
                 id:
                     type: integer
-                packageID:
+                package_id:
                     type: string
                 version:
                     type: string

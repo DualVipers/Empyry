@@ -6,7 +6,7 @@ export const up = (knex) => {
     return knex.schema.createTable("PackageVersions", (table) => {
         table.increments("id").notNullable().primary();
         table
-            .integer("packageID")
+            .integer("package_id")
             .notNullable()
             .references("Package.id")
             .onDelete("CASCADE");
@@ -14,13 +14,12 @@ export const up = (knex) => {
         table.integer("major").notNullable();
         table.integer("miner").notNullable();
         table.integer("patch").notNullable();
-        table.string("preRelease");
+        table.string("pre_release");
         table.string("build");
         table.string("digest");
-        table.date("created_at").notNullable().defaultTo(knex.fn.now());
-        table.date("updated_at").notNullable().defaultTo(knex.fn.now());
+        table.timestamps();
 
-        table.unique(["packageID", "version"], {
+        table.unique(["package_id", "version"], {
             indexName: "package_version_index",
         });
     });

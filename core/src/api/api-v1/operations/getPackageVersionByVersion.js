@@ -3,12 +3,12 @@ import logger from "../../../logger.js";
 
 export default async (c, req, res) => {
     const packageVersion = await Package.relatedQuery("versions")
-        .for(c.request.params.packageID)
+        .for(c.request.params.package_id)
         .where("version", c.request.params.version)
         .first() // There will only be one, but no unique support for Objection.js
         .select(
             "id",
-            "packageID",
+            "package_id",
             "version",
             "digest",
             "created_at",
@@ -18,7 +18,7 @@ export default async (c, req, res) => {
     logger.debug(
         `Found Package Version: ${JSON.stringify(
             packageVersion
-        )}\nFor Package: ${c.request.params.packageID}\nFor Version: ${
+        )}\nFor Package: ${c.request.params.package_id}\nFor Version: ${
             c.request.params.version
         }`
     );

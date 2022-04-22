@@ -3,10 +3,10 @@ import logger from "../../../logger.js";
 
 export default async (c, req, res) => {
     const packageVersions = await Package.relatedQuery("versions")
-        .for(c.request.params.packageID)
+        .for(c.request.params.package_id)
         .select(
             "id",
-            "packageID",
+            "package_id",
             "version",
             "digest",
             "created_at",
@@ -16,7 +16,7 @@ export default async (c, req, res) => {
     logger.debug(
         `Found PackageVersions: ${JSON.stringify(
             packageVersions
-        )}\nFor Package: ${c.request.params.packageID}`
+        )}\nFor Package: ${c.request.params.package_id}`
     );
 
     res.status(200).json(packageVersions);

@@ -3,7 +3,7 @@ import logger from "../../../logger.js";
 
 export default async (c, req, res) => {
     const foundPackage = await Package.query()
-        .findById(c.request.params.packageID)
+        .findById(c.request.params.package_id)
         .select(
             "id",
             "name",
@@ -17,7 +17,7 @@ export default async (c, req, res) => {
 
     logger.debug(
         `Found Package: ${JSON.stringify(foundPackage)}\nFor ID: ${
-            c.request.params.packageID
+            c.request.params.package_id
         }`
     );
 

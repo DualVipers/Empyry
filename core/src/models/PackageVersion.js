@@ -22,7 +22,7 @@ class PackageVersion extends Base {
                 relation: Model.BelongsToOneRelation,
                 modelClass: Package,
                 join: {
-                    from: "PackageVersions.packageID",
+                    from: "PackageVersions.package_id",
                     to: "Packages.id",
                 },
             },
@@ -30,14 +30,14 @@ class PackageVersion extends Base {
     }
 
     $beforeUpdate() {
-        Package.query().findById(this.packageID).patch({
+        Package.query().findById(this.package_id).patch({
             updated_at: knex.fn.now(),
         });
 
         this.version = this.major + "." + this.minor + "." + this.patch;
 
-        if (this.preRelease) {
-            this.version += "-" + this.preRelease;
+        if (this.pre_release) {
+            this.version += "-" + this.pre_release;
         }
 
         if (this.build) {

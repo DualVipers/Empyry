@@ -19,7 +19,7 @@ class Package extends Base {
                 modelClass: PackageVersion,
                 join: {
                     from: "Packages.id",
-                    to: "PackageVersions.packageID",
+                    to: "PackageVersions.package_id",
                 },
             },
         };
