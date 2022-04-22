@@ -1,5 +1,6 @@
 import { outputFile } from "fs-extra";
-import { error } from "../logger";
+
+import logger from "../logger.js";
 
 export default async (filePath, file) => {
     try {
@@ -7,7 +8,7 @@ export default async (filePath, file) => {
 
         return;
     } catch (err) {
-        error({ err: err }, `Could Not Save File: ${filePath}`);
+        logger.error({ err: err }, `Could Not Save File: ${filePath}`);
 
         throw err;
     }
