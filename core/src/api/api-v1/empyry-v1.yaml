@@ -140,12 +140,16 @@ components:
                     type: string
                 description:
                     type: string
+                    nullable: true
                 source:
                     type: string
+                    nullable: true
                 home:
                     type: string
+                    nullable: true
                 license:
                     type: string
+                    nullable: true
                 created_at:
                     type: string
                 updated_at:
@@ -161,6 +165,7 @@ components:
                     type: string
                 digest:
                     type: string
+                    nullable: true
                 created_at:
                     type: string
                 updated_at:
