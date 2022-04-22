@@ -34,16 +34,6 @@ class PackageVersion extends Base {
             updated_at: knex.fn.now(),
         });
 
-        this.version = this.major + "." + this.minor + "." + this.patch;
-
-        if (this.pre_release) {
-            this.version += "-" + this.pre_release;
-        }
-
-        if (this.build) {
-            this.version += "+" + this.build;
-        }
-
         super.$beforeUpdate();
     }
 }

@@ -11,7 +11,7 @@ import logger from "../../logger.js";
  *
  * @param {Buffer} file - The .tar.gz file to save
  * @param {string} name - The name of the Package
- * @param {Object} version - The SemVer version of the Package
+ * @param {string} version - The SemVer version of the Package
  *
  * @returns {Promise<null>}
  */

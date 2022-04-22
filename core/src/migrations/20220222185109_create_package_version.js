@@ -11,11 +11,6 @@ export const up = (knex) => {
             .references("Package.id")
             .onDelete("CASCADE");
         table.string("version").notNullable();
-        table.integer("major").notNullable();
-        table.integer("miner").notNullable();
-        table.integer("patch").notNullable();
-        table.string("pre_release");
-        table.string("build");
         table.string("digest");
         table.timestamps();
 

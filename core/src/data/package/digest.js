@@ -6,7 +6,7 @@ import logger from "../../logger.js";
  * Creates a hash for the specified Package Version
  *
  * @param {string} name - The name of the Package
- * @param {Object} version - The SemVer version of the Package
+ * @param {string} version - The SemVer version of the Package
  *
  * @returns {Promise<string>} The hash of the Package
  */
