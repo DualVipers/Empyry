@@ -92,7 +92,9 @@ paths:
                 "400":
                     $ref: "#/components/responses/validation_failure"
                 "404":
-                    description: There is no PackageVersion with the supplied version for the Package with the supplied package_id
+                    description: >-
+                        There is no PackageVersion with the supplied version for the Package
+                        with the supplied package_id
         parameters:
             - name: package_id
               in: path
@@ -104,8 +106,63 @@ paths:
               required: true
               schema:
                   type: string
-                  pattern: '^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$'
-
+                  pattern: >-
+                      ^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$
+    /plugins:
+        get:
+            description: Get a list of all Plugins
+            operationId: getPlugins
+            responses:
+                "200":
+                    description: An array of all Plugins
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                minItems: 0
+                                items:
+                                    $ref: "#/components/schemas/Plugin"
+                "400":
+                    $ref: "#/components/responses/validation_failure"
+        post:
+            description: Add a Plugin to Empyry
+            operationId: postPlugins
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/Plugin"
+            responses:
+                "200":
+                    description: Successfully Added Plugin
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Plugin"
+                "400":
+                    $ref: "#/components/responses/validation_failure"
+    /plugins/{plugin_id}:
+        get:
+            description: Get a specific Plugin by plugin_id
+            operationId: getPluginByID
+            responses:
+                "200":
+                    description: The Package with the requested plugin_id
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Plugin"
+                "400":
+                    $ref: "#/components/responses/validation_failure"
+                "404":
+                    description: The Plugin does not exist
+        parameters:
+            - name: plugin_id
+              in: path
+              required: true
+              schema:
+                  type: integer
 components:
     responses:
         validation_failure:
@@ -136,6 +193,7 @@ components:
             properties:
                 id:
                     type: integer
+                    readOnly: true
                 name:
                     type: string
                 description:
@@ -152,15 +210,19 @@ components:
                     nullable: true
                 created_at:
                     type: string
+                    readOnly: true
                 updated_at:
                     type: string
+                    readOnly: true
         PackageVersion:
             type: object
             properties:
                 id:
                     type: integer
+                    readOnly: true
                 package_id:
                     type: string
+                    readOnly: true
                 version:
                     type: string
                 digest:
@@ -168,5 +230,28 @@ components:
                     nullable: true
                 created_at:
                     type: string
+                    readOnly: true
                 updated_at:
                     type: string
+                    readOnly: true
+        Plugin:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    readOnly: true
+                name:
+                    type: string
+                type:
+                    type: string
+                location:
+                    type: string
+                version:
+                    type: string
+                    nullable: true
+                created_at:
+                    type: string
+                    readOnly: true
+                updated_at:
+                    type: string
+                    readOnly: true

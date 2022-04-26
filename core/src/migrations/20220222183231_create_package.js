@@ -6,12 +6,12 @@ export const up = (knex) => {
     return knex.schema.createTable("Packages", (table) => {
         table.increments("id").notNullable().primary();
         table.string("name").notNullable().unique();
-        table.string("platorm").notNullable();
+        table.string("platform").notNullable();
         table.string("description");
         table.string("source");
         table.string("home");
         table.string("license");
-        table.timestamps();
+        table.timestamps(false, true);
     });
 };
 

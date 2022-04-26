@@ -12,7 +12,7 @@ export const up = (knex) => {
             .onDelete("CASCADE");
         table.string("version").notNullable();
         table.string("digest");
-        table.timestamps();
+        table.timestamps(false, true);
 
         table.unique(["package_id", "version"], {
             indexName: "package_version_index",

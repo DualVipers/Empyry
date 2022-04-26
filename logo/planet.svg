@@ -1,0 +1,41 @@
+<svg width="150" height="150">
+  <style>
+    .satellite {
+      animation: rotate 5s linear infinite;
+    }
+
+    @keyframes rotate {
+      to {
+        transform: rotate(-360deg);
+      }
+    }
+  </style>
+  
+  <g class="planet" transform="translate(25 10)">
+    <!-- moons behind the planet -->
+    <circle cx="80" cy="30" r="10" fill="#FF7F50" stroke="#301934" stroke-width="4" />
+    
+    <!-- planet -->
+    <circle cx="50" cy="50" r="35" fill="#C3B1E1" stroke="#301934" stroke-width="4" />
+    
+    <!-- moons above the planet -->
+    <g class="moons">
+      <circle cx="85" cy="75" r="3" fill="#FF7F50" stroke="#301934" stroke-width="3" />
+      <circle cx="60" cy="60" r="4" fill="#FF7F50" stroke="#301934" stroke-width="3" />
+      <circle cx="40" cy="65" r="8" fill="#FF7F50" stroke="#301934" stroke-width="4" />
+      <circle cx="30" cy="35" r="6" fill="#FF7F50" stroke="#301934" stroke-width="3" />
+    </g>
+
+    <!-- cloud above the planet -->
+    <path d="M 50 25 a 25 25 0 0 1 25 25" fill="none" stroke="#301934" stroke-width="4" stroke-linecap="round" />
+    
+    <!-- special moon equipped with a trail and made to rotate with respect to the center of the planet -->
+    <g transform="translate(50 50)">
+      <g class="satellite">
+        <!-- path before the circle to have the circle overlap and hide the end of the line -->
+        <path d="M 0 50 a 50 50 0 0 0 50 -50" fill="none" stroke="#301934" stroke-width="4" stroke-linecap="round" />
+        <circle cx="50" cy="0" r="8" fill="#FFF2ED" stroke="#301934" stroke-width="4" />
+      </g>
+    </g>
+  </g>
+</svg>

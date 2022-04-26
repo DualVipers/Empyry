@@ -1,0 +1,21 @@
+{
+    "name": "@empyry/types",
+    "version": "0.0.0",
+    "description": "The types for an Empyry plugin",
+    "author": "Dual Vipers",
+    "license": "Apache-2.0",
+    "homepage": "https://empyry.com",
+    "bugs": {
+        "url": "https://github.com/DualVipers/empyry/issues"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/DualVipers/empyry"
+    },
+    "type": "module",
+    "types": "index.d.ts",
+    "scripts": {},
+    "dependencies": {
+        "@types/express": "4.17.13"
+    }
+}

@@ -6,11 +6,11 @@
     "license": "Apache-2.0",
     "homepage": "https://empyry.com",
     "bugs": {
-        "url": "https://github.com/DualVipers/uvae/issues"
+        "url": "https://github.com/DualVipers/empyry/issues"
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/DualVipers/uvae"
+        "url": "git+https://github.com/DualVipers/empyry"
     },
     "private": true,
     "scripts": {
@@ -36,7 +36,9 @@
         "minimist": "1.2.6"
     },
     "workspaces": [
-        "core"
+        "core",
+        "managers/*",
+        "types"
     ],
     "config": {
         "commitizen": {

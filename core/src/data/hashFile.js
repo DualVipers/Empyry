@@ -1,5 +1,5 @@
-import { async } from "hasha";
+import hasha from "hasha";
 
 export default async (file) => {
-    return async(file);
+    return hasha.async(file);
 };

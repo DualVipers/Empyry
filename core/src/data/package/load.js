@@ -14,7 +14,7 @@ import logger from "../../logger.js";
  * @returns {Promise<Buffer>} The buffer of the Package Version
  */
 export default async (name, version) => {
-    const fileName = `${name}-${version}.tar.gz`;
+    const fileName = `${name}-${version}.tgz`;
 
     const filePath = join(paths.data, "Packages", fileName);
 
