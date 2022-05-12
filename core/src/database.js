@@ -6,7 +6,7 @@ import logger from "./logger.js";
 import paths from "./paths.js";
 
 const knex = Knex({
-    client: "sqlite3",
+    client: "better-sqlite3",
     useNullAsDefault: true,
     connection: {
         filename:

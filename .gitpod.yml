@@ -1,7 +1,7 @@
 tasks:
     - before: |
           npm install --global yarn
-          yarn global add commitizen sqlite3
+          yarn global add commitizen
           yarn run setup
 
 github:

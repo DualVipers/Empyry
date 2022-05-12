@@ -10,7 +10,7 @@
         "start": "node ./src/Empyry.js | bunyan -o short"
     },
     "dependencies": {
-        "@vscode/sqlite3": "5.0.8",
+        "better-sqlite3": "7.5.1",
         "bunyan": "1.8.15",
         "cross-env": "7.0.3",
         "env-paths": "3.0.0",
