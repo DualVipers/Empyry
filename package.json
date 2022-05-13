@@ -37,11 +37,16 @@
         "inquirer": "8.2.2",
         "minimist": "1.2.6"
     },
-    "workspaces": [
-        "core",
-        "managers/*",
-        "types"
-    ],
+    "workspaces": {
+        "packages": [
+            "core",
+            "managers/*",
+            "types"
+        ],
+        "nohoist": [
+            "core"
+        ]
+    },
     "config": {
         "commitizen": {
             "path": "./node_modules/cz-conventional-changelog"

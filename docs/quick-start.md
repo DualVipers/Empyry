@@ -9,12 +9,16 @@ Empyry's container is currently hosted on Docker Hub.
 ```bash
 docker pull dualvs/empyry:latest
 
-docker run -it --rm \
+docker run -it \
     -p 9000:9000 \
-    -v $(pwd)/data:/dataPath \
-    -v $(pwd)/config:/configPath \
-    dualvs/empyry
+    --name empyry \
+    -v EmpyryData:/root/.local/share/Empyry \
+    -v EmpyryConfig:/root/.config/Empyry \
+    -v EmpyryLogs:/root/.local/state/Empyry \
+    dualvs/empyry initiate
 ```
+
+This creates a container to hold an Empyry instance. The command `initiate` automatically migrates the database before starting Empyry.
 
 ## Setting Up
 

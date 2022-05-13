@@ -5,6 +5,7 @@
     "private": true,
     "type": "module",
     "scripts": {
+        "initiate": "yarn migrate; yarn start",
         "migrate": "cross-env MIGRATION=true node ./src/migrate.js | bunyan -o short",
         "output": "bunyan ./testing.log",
         "start": "node ./src/Empyry.js | bunyan -o short"
@@ -28,5 +29,10 @@
     "devDependencies": {
         "@empyry/types": "0.0.0",
         "yarn-audit-fix": "9.3.0"
+    },
+    "workspaces": {
+        "nohoist": [
+            "**"
+        ]
     }
 }

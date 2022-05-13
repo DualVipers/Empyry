@@ -16,3 +16,4 @@ vscode:
         - esbenp.prettier-vscode
         - mtxr.sqltools
         - mtxr.sqltools-driver-sqlite
+        - ms-azuretools.vscode-docker

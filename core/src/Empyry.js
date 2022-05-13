@@ -28,7 +28,7 @@ waymaker.register("swagger", express.static(absolutePath()));
 // Plugins
 (await loadPlugins()).forEach((plugin) => {
     const pluginVersionCorrect = semver.satisfies(
-        fs.readJSONSync("../package.json").version,
+        fs.readJSONSync("./package.json").version,
         plugin.constructor.supportedVersions
     );
 
