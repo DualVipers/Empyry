@@ -1,7 +1,14 @@
+import { join } from "path";
+
+import paths from "./src/paths.js";
+
 export default {
-    client: "better-sqlite3",
+    client: "sqlite3",
     connection: {
-        filename: "./database.sqlite3",
+        filename:
+            process.env.NODE_ENV == "production"
+                ? join(paths.data, "database.sqlite")
+                : "database.sqlite",
     },
     migrations: { directory: "./src/migrations" },
 };
