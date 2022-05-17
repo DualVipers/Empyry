@@ -1,6 +1,9 @@
 const express = require("express");
 const tar = require("tar");
 const fs = require("fs-extra");
+const multer = require("multer");
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 const { join, basename } = require("path");
 const { parse, stringify } = require("yaml");
 
@@ -120,46 +123,132 @@ module.exports = class HelmPlugin {
         router.post(
             "/api/charts",
             express.raw({ type: "application/x-www-form-urlencoded" }),
+            upload.fields([
+                { name: "chart", maxCount: 1 },
+                { name: "prov", maxCount: 1 },
+            ]),
             async (req, res) => {
-                const chartZipped = req.body;
+                if (req.files) {
+                    const files = req.files;
 
-                const tempID = Date.now().toString();
-                const tempDir = join(empyryInterface.cacheDir, tempID);
-                const tempPath = join(
-                    empyryInterface.cacheDir,
-                    `${tempID}.tgz`
-                );
-                fs.ensureDirSync(tempDir);
+                    let chartFile;
+                    let provFile;
 
-                fs.writeFileSync(tempPath, chartZipped);
+                    chartFile = files["chart"][0].buffer;
+                    provFile = files["prov"][0].buffer;
 
-                await tar.x({
-                    keep: true,
-                    file: tempPath,
-                    strip: 1,
-                    cwd: join(empyryInterface.cacheDir, tempID),
-                    filter: (path) =>
-                        basename(path) == "Chart.yaml" ||
-                        basename(path) == "Chart.yml",
-                });
+                    if (!chartFile || !provFile) {
+                        return res.status(400).send();
+                    }
 
-                const chartYaml = parse(
-                    fs
-                        .readFileSync(
-                            join(empyryInterface.cacheDir, tempID, "Chart.yaml")
-                        )
+                    const tempID = Date.now().toString();
+                    const tempDir = join(empyryInterface.cacheDir, tempID);
+                    const tempPath = join(
+                        empyryInterface.cacheDir,
+                        `${tempID}.tgz`
+                    );
+                    fs.ensureDirSync(tempDir);
+
+                    fs.writeFileSync(tempPath, chartFile);
+
+                    await tar.x({
+                        keep: true,
+                        file: tempPath,
+                        strip: 1,
+                        cwd: join(empyryInterface.cacheDir, tempID),
+                        filter: (path) =>
+                            basename(path) == "Chart.yaml" ||
+                            basename(path) == "Chart.yml",
+                    });
+
+                    const chartYaml = parse(
+                        fs
+                            .readFileSync(
+                                join(
+                                    empyryInterface.cacheDir,
+                                    tempID,
+                                    "Chart.yaml"
+                                )
+                            )
+                            .toString()
+                    );
+
+                    await empyryInterface.savePackage(
+                        chartYaml.name,
+                        chartYaml.version,
+                        chartFile
+                    );
+
+                    fs.emptyDirSync(tempDir);
+                    fs.rmdirSync(tempDir);
+                    fs.rmSync(tempPath);
+
+                    let name = provFile
                         .toString()
-                );
+                        .substring(provFile.toString().indexOf("\nname: ") + 7);
 
-                await empyryInterface.savePackage(
-                    chartYaml.name,
-                    chartYaml.version,
-                    chartZipped
-                );
+                    name = name.substring(0, name.toString().indexOf("\n"));
 
-                fs.emptyDirSync(tempDir);
-                fs.rmdirSync(tempDir);
-                fs.rmSync(tempPath);
+                    let version = provFile
+                        .toString()
+                        .substring(
+                            provFile.toString().indexOf("\nversion: ") + 10
+                        );
+
+                    version = version.substring(
+                        0,
+                        version.toString().indexOf("\n")
+                    );
+
+                    await empyryInterface.saveFile(
+                        join("prov", `${name}-${version}.tgz.prov`),
+                        provFile
+                    );
+                } else {
+                    const chartZipped = req.body;
+
+                    const tempID = Date.now().toString();
+                    const tempDir = join(empyryInterface.cacheDir, tempID);
+                    const tempPath = join(
+                        empyryInterface.cacheDir,
+                        `${tempID}.tgz`
+                    );
+                    fs.ensureDirSync(tempDir);
+
+                    fs.writeFileSync(tempPath, chartZipped);
+
+                    await tar.x({
+                        keep: true,
+                        file: tempPath,
+                        strip: 1,
+                        cwd: join(empyryInterface.cacheDir, tempID),
+                        filter: (path) =>
+                            basename(path) == "Chart.yaml" ||
+                            basename(path) == "Chart.yml",
+                    });
+
+                    const chartYaml = parse(
+                        fs
+                            .readFileSync(
+                                join(
+                                    empyryInterface.cacheDir,
+                                    tempID,
+                                    "Chart.yaml"
+                                )
+                            )
+                            .toString()
+                    );
+
+                    await empyryInterface.savePackage(
+                        chartYaml.name,
+                        chartYaml.version,
+                        chartZipped
+                    );
+
+                    fs.emptyDirSync(tempDir);
+                    fs.rmdirSync(tempDir);
+                    fs.rmSync(tempPath);
+                }
 
                 res.status(200).send(null);
             }
@@ -172,23 +261,23 @@ module.exports = class HelmPlugin {
             async (req, res) => {
                 const prov = req.body;
 
-                const chartProv = parse(
-                    prov // This is so hacky
-                        .toString()
-                        .substring(
-                            prov
-                                .toString()
-                                .indexOf("-----BEGIN PGP SIGNED MESSAGE-----") +
-                                34,
-                            prov.toString().indexOf("...")
-                        )
+                let name = prov
+                    .toString()
+                    .substring(prov.toString().indexOf("\nname: ") + 7);
+
+                name = name.substring(0, name.toString().indexOf("\n"));
+
+                let version = prov
+                    .toString()
+                    .substring(prov.toString().indexOf("\nversion: ") + 10);
+
+                version = version.substring(
+                    0,
+                    version.toString().indexOf("\n")
                 );
 
                 await empyryInterface.saveFile(
-                    join(
-                        "prov",
-                        `${chartProv.name}-${chartProv.version}.tgz.prov`
-                    ),
+                    join("prov", `${name}-${version}.tgz.prov`),
                     prov
                 );
 

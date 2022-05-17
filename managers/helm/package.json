@@ -20,6 +20,7 @@
     "dependencies": {
         "express": "4.17.3",
         "fs-extra": "10.1.0",
+        "multer": "1.4.4",
         "tar": "6.1.11",
         "yaml": "2.0.1"
     }
