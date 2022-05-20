@@ -2,6 +2,7 @@ import express from "express";
 import Waymaker from "waymaker";
 import semver from "semver";
 import fs from "fs-extra";
+import { join } from "path";
 import { absolutePath } from "swagger-ui-dist";
 
 import logger from "./logger.js";
@@ -25,18 +26,21 @@ waymaker.register("api", apiRouter);
 // Swagger UI
 waymaker.register("swagger", express.static(absolutePath()));
 
+const empyryVersion = join(
+    new URL(import.meta.url).pathname,
+    "../../package.json"
+);
+
 // Plugins
 (await loadPlugins()).forEach((plugin) => {
     const pluginVersionCorrect = semver.satisfies(
-        fs.readJSONSync("./package.json").version,
+        fs.readJSONSync(empyryVersion).version,
         plugin.constructor.supportedVersions
     );
 
     if (!pluginVersionCorrect) {
         logger.error(
-            `Plugin ${plugin.constructor.name} Requires Versions ${
-                plugin.constructor.supportedVersions
-            }\nRunning Version ${fs.readJSONSync("../package.json").version}`
+            `Plugin ${plugin.constructor.name} Requires Versions ${plugin.constructor.supportedVersions}\nRunning Version ${empyryVersion}`
         );
 
         return;
