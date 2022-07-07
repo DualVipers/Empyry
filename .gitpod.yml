@@ -1,19 +1,19 @@
 tasks:
-    - before: |
-          npm install --global yarn
-          yarn global add commitizen
-          yarn run setup
+  - before: |
+      npm install --global yarn
+      yarn global add commitizen
+      yarn run setup
 
 github:
-    prebuilds:
-        pullRequestsFromForks: true
-        addComment: true
+  prebuilds:
+    pullRequestsFromForks: true
+    addComment: true
 
 vscode:
-    extensions:
-        - 42Crunch.vscode-openapi
-        - dbaeumer.vscode-eslint
-        - esbenp.prettier-vscode
-        - mtxr.sqltools
-        - mtxr.sqltools-driver-sqlite
-        - ms-azuretools.vscode-docker
+  extensions:
+    - 42Crunch.vscode-openapi
+    - dbaeumer.vscode-eslint
+    - esbenp.prettier-vscode
+    - mtxr.sqltools
+    - mtxr.sqltools-driver-sqlite
+    - ms-azuretools.vscode-docker
