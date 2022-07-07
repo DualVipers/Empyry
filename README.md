@@ -3,8 +3,8 @@
 </p>
 <h2 align="center">The One Stop Package Registry That Is Out Of This World!</h2>
 
-[![Build Status](https://img.shields.io/github/workflow/status/DualVS/Empyry/build.svg)](https://github.com/DualVS/Empyry/actions/workflows/build.yml)
-[![license](https://img.shields.io/github/license/DualVS/Empyry.svg)](http://www.apache.org/licenses/LICENSE-2.0)
+[![Build Status](https://img.shields.io/github/workflow/status/DualVipers/Empyry/build.svg)](https://github.com/DualVipers/Empyry/actions/workflows/build.yml)
+[![license](https://img.shields.io/github/license/DualVipers/Empyry.svg)](http://www.apache.org/licenses/LICENSE-2.0)
 
 Empyry is a manager-agnostic package repository that supports private and public repositories, or both at the same time (public and private packages). Empyry is built around a simple plugin API, allowing for any package manager to be supported via a downloaded plugin.
 
