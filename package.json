@@ -21,21 +21,17 @@
         "setup": "yarn install --frozen-lockfile && husky install && lerna bootstrap && lerna link"
     },
     "devDependencies": {
-        "@commitlint/cli": "16.2.3",
-        "@commitlint/config-conventional": "16.2.1",
+        "@commitlint/cli": "17.0.3",
+        "@commitlint/config-conventional": "17.0.3",
         "cz-conventional-changelog": "3.3.0",
-        "eslint": "8.13.0",
+        "eslint": "8.19.0",
         "eslint-config-prettier": "8.5.0",
-        "eslint-plugin-prettier": "4.0.0",
-        "http-server": "14.1.0",
-        "husky": "7.0.4",
-        "lerna": "4.0.0",
-        "prettier": "2.6.2",
-        "yarn-audit-fix": "9.2.2"
-    },
-    "resolutions": {
-        "inquirer": "8.2.2",
-        "minimist": "1.2.6"
+        "eslint-plugin-prettier": "4.2.1",
+        "http-server": "14.1.1",
+        "husky": "8.0.1",
+        "lerna": "5.1.7",
+        "prettier": "2.7.1",
+        "yarn-audit-fix": "9.3.2"
     },
     "workspaces": {
         "packages": [
