@@ -13,7 +13,7 @@ jobs:
       - name: Setup
         run: yarn setup
       - name: Check Pull Request Title
-        run: yarn cz check --message ${{ github.event.pull_request.title }}
+        run: yarn commitlint <<< """${{ github.event.pull_request.title }}"""
       - name: Lint
         run: yarn lint
       - name: Prettier
