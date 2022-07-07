@@ -1,0 +1,21 @@
+name: checks
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install yarn
+        run: npm install --global yarn
+      - name: Setup
+        run: yarn setup
+      - name: Check Commit Name
+        run: yarn cz check --rev-range HEAD^..HEAD
+      - name: Lint
+        run: yarn lint
+      - name: Prettier
+        run: yarn prettier

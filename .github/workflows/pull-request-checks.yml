@@ -1,0 +1,20 @@
+name: pull-request-checks
+on:
+  pull_request:
+    types: ["opened", "edited", "reopened", "synchronize"]
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install yarn
+        run: npm install --global yarn
+      - name: Setup
+        run: yarn setup
+      - name: Check Pull Request Title
+        run: yarn cz check --message ${{ github.event.pull_request.title }}
+      - name: Lint
+        run: yarn lint
+      - name: Prettier
+        run: yarn prettier
