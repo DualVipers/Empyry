@@ -33,6 +33,10 @@
         "prettier": "2.7.1",
         "yarn-audit-fix": "9.3.2"
     },
+    "resolutions": {
+        "inquirer": "8.2.2",
+        "minimist": "1.2.6"
+    },
     "workspaces": {
         "packages": [
             "core",
