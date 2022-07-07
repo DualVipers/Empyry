@@ -14,7 +14,7 @@ jobs:
       - name: Setup
         run: yarn setup
       - name: Check Commit Name
-        run: yarn commitlint --from HEAD~1
+        run: yarn commitlint <<< """${{ github.event.head_commit.message }}"""
       - name: Lint
         run: yarn lint
       - name: Prettier
