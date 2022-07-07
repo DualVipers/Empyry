@@ -1,7 +1,7 @@
 -   Getting Started
 
     -   [Overview](README.md)
-    -   [Quick Start](quick-start.md)
+    -   [Quick Start](QuickStart.md)
 
 -   Managers
 
