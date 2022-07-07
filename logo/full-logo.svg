@@ -1,5 +1,10 @@
-<svg width="150" height="150" xmlns="http://www.w3.org/2000/svg">
+<svg width="470" height="150" xmlns="http://www.w3.org/2000/svg">
   <style>
+    text { 
+      font: bold 90px "Courier";
+      fill: #C3B1E1; 
+    }
+    
     .satellite {
       animation: rotate 5s linear infinite;
     }
@@ -38,4 +43,7 @@
       </g>
     </g>
   </g>
+  
+  <text x="138" y="98" style="fill: black;">Empyry</text>
+  <text x="140" y="95">Empyry</text>
 </svg>

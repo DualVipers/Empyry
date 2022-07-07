@@ -1,16 +1,4 @@
 <svg width="150" height="150" xmlns="http://www.w3.org/2000/svg">
-  <style>
-    .satellite {
-      animation: rotate 5s linear infinite;
-    }
-
-    @keyframes rotate {
-      to {
-        transform: rotate(-360deg);
-      }
-    }
-  </style>
-  
   <g class="planet" transform="translate(25 25)">
     <!-- moons behind the planet -->
     <circle cx="80" cy="30" r="10" fill="#FF7F50" stroke="#301934" stroke-width="4" />
@@ -28,14 +16,5 @@
 
     <!-- cloud above the planet -->
     <path d="M 50 25 a 25 25 0 0 1 25 25" fill="none" stroke="#301934" stroke-width="4" stroke-linecap="round" />
-    
-    <!-- special moon equipped with a trail and made to rotate with respect to the center of the planet -->
-    <g transform="translate(50 50)">
-      <g class="satellite">
-        <!-- path before the circle to have the circle overlap and hide the end of the line -->
-        <path d="M 0 50 a 50 50 0 0 0 50 -50" fill="none" stroke="#301934" stroke-width="4" stroke-linecap="round" />
-        <circle cx="50" cy="0" r="8" fill="#FFF2ED" stroke="#301934" stroke-width="4" />
-      </g>
-    </g>
   </g>
 </svg>

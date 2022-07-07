@@ -1,5 +1,5 @@
 <p align="center">
-  <img alt="Polly.JS" width="400px" src="https://netflix.github.io/pollyjs/assets/images/wordmark-logo-alt.png" />
+  <img alt="Empyry" width="500px" src="https://empyry.com/assets/images/full-logo.svg" />
 </p>
 <h2 align="center">The One Stop Package Registry That Is Out Of This World!</h2>
 
@@ -27,7 +27,7 @@ Empyry replaces all of these registries, centralizing your private and public de
 
 ## Getting Started
 
-Check out the [Quick Start](quick-start.md) documentation to get started.
+Check out the [Quick Start](QuickStart.md) documentation to get started.
 
 ## Contributors
 

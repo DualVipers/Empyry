@@ -1,4 +1,4 @@
-![logo](assets/images/wordmark-logo-alt.png)
+![logo](assets/images/full-logo.svg)
 
 > The One Stop Package Registry That Is Out Of This World!
 
