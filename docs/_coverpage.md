@@ -2,7 +2,7 @@
 
 > The One Stop Package Registry That Is Out Of This World!
 
--   🐳 Nativly Containerized
+-   🐳 Natively Containerized
 -   🚀 Easy Setup Through Browser **_Coming Soon_**
 -   🖼️ User and Admin Site **_Coming Soon_**
 -   🔒 Simple Unified User and Authentication System **_Coming Soon_**

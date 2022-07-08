@@ -12,12 +12,12 @@ Empyry is a manager-agnostic package repository that supports private and public
 
 ## Why Empyry?
 
-As programming languages continue to become more specilized, individuals and companies are using a wider range of different package managers, and therefore different registries. Each registry requires a differnet login for each user, and has its own bill.
+As programming languages continue to become more specialized, individuals and companies are using a wider range of different package managers, and therefore different registries. Each registry requires a different login for each user, and has its own bill.
 Empyry replaces all of these registries, centralizing your private and public dependencies across all your languages in one place, with one simple user system, on your own hosted system.
 
 ## Features
 
--   🐳 Nativly Containerized
+-   🐳 Natively Containerized
 -   🚀 Easy Setup Through Browser **_Coming Soon_**
 -   🖼️ User and Admin Site **_Coming Soon_**
 -   🔒 Simple Unified User and Authentication System **_Coming Soon_**
