@@ -26,7 +26,7 @@ waymaker.register("api", apiRouter);
 // Swagger UI
 waymaker.register("swagger", express.static(absolutePath()));
 
-const empyryVersion = join(
+const empyryJSON = join(
     new URL(import.meta.url).pathname,
     "../../package.json"
 );
@@ -34,13 +34,15 @@ const empyryVersion = join(
 // Plugins
 (await loadPlugins()).forEach((plugin) => {
     const pluginVersionCorrect = semver.satisfies(
-        fs.readJSONSync(empyryVersion).version,
+        fs.readJSONSync(empyryJSON).version,
         plugin.constructor.supportedVersions
     );
 
     if (!pluginVersionCorrect) {
         logger.error(
-            `Plugin ${plugin.constructor.name} Requires Versions ${plugin.constructor.supportedVersions}\nRunning Version ${empyryVersion}`
+            `Plugin ${plugin.constructor.name} Requires Versions ${
+                plugin.constructor.supportedVersions
+            }\nRunning Version ${fs.readJSONSync(empyryJSON).version}`
         );
 
         return;
