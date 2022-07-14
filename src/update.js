@@ -68,7 +68,23 @@ const updater = async (current_version) => {
     console.log("");
     console.log("Publish Plugins");
     try {
-        await os_func("yarn", ["lerna", "publish", "from-package", "--no-git-reset"]);
+        if (semver.prerelease(new_version)) {
+            await os_func("yarn", [
+                "lerna",
+                "publish",
+                "from-package",
+                "--no-git-reset",
+                "--dist-tag",
+                "beta",
+            ]);
+        } else {
+            await os_func("yarn", [
+                "lerna",
+                "publish",
+                "from-package",
+                "--no-git-reset",
+            ]);
+        }
     } catch {
         console.log("");
         console.error("Could Not Publish Plugins");
