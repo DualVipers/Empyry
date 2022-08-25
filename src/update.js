@@ -27,7 +27,7 @@ const updater = async (current_version) => {
     console.log(`New Version: ${new_version}`);
 
     const okay_prompt = new Toggle({
-        message: "Build and Push Version?",
+        message: "Build Version?",
         enabled: "Yes",
         disabled: "No",
     });
@@ -64,6 +64,17 @@ const updater = async (current_version) => {
         return;
     }
     console.log("");
+
+    const publish_prompt = new Toggle({
+        message: "Publish Version? (Make sure you have committed all changes)",
+        enabled: "Yes",
+        disabled: "No",
+    });
+
+    if (!(await publish_prompt.run())) {
+        console.error("Quitting");
+        return;
+    }
 
     console.log("");
     console.log("Publish Plugins");
