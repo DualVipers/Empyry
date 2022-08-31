@@ -17,5 +17,8 @@
     "scripts": {},
     "dependencies": {
         "@types/express": "4.17.13"
+    },
+    "publishConfig": {
+        "access": "public"
     }
 }
