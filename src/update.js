@@ -26,13 +26,13 @@ const updater = async (current_version) => {
 
     console.log(`New Version: ${new_version}`);
 
-    const okay_prompt = new Toggle({
-        message: "Build Version?",
+    const version_prompt = new Toggle({
+        message: "Start Update With Version?",
         enabled: "Yes",
         disabled: "No",
     });
 
-    if (!(await okay_prompt.run())) {
+    if (!(await version_prompt.run())) {
         console.error("Quitting");
         return;
     }
@@ -53,6 +53,17 @@ const updater = async (current_version) => {
         return;
     }
     console.log("");
+
+    const build_prompt = new Toggle({
+        message: "Build Version?",
+        enabled: "Yes",
+        disabled: "No",
+    });
+
+    if (!(await build_prompt.run())) {
+        console.error("Quitting");
+        return;
+    }
 
     console.log("");
     console.log("Build Core");
