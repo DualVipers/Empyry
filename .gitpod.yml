@@ -3,6 +3,7 @@ tasks:
       npm install --global yarn
       yarn global add commitizen
       yarn run setup
+      docker build . --tag empyry:latest
 
 github:
   prebuilds:
