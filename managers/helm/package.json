@@ -1,6 +1,6 @@
 {
     "name": "@empyry/helm",
-    "version": "0.0.0",
+    "version": "0.0.1-beta.0",
     "description": "An Empyry plugin for Helm",
     "author": "Dual Vipers",
     "license": "Apache-2.0",
@@ -15,7 +15,7 @@
     "main": "index.js",
     "scripts": {},
     "devDependencies": {
-        "@empyry/types": "0.0.0"
+        "@empyry/types": "^0.0.1-beta.0"
     },
     "dependencies": {
         "express": "4.18.1",

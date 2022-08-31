@@ -16,7 +16,7 @@ const semverRegex =
 module.exports = class HelmPlugin {
     static name = "helm";
 
-    static supportedVersions = "0.0.0";
+    static supportedVersions = "0.0.1-beta.0";
 
     /**@type {import("@empyry/types").EmpyryInterface}*/
     empyryInterface;
