@@ -1,328 +1,328 @@
 openapi: 3.0.3
 info:
-    version: 1.0.0-alpha.0
-    title: Empyry v1
-    license:
-        name: Apache 2.0
-        url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0-alpha.0
+  title: Empyry v1
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
 paths:
-    /api-docs:
-        get:
-            description: Access the v1 OpenAPI Definition
-            operationId: serveDefinition
-            responses:
-                "200":
-                    description: Serves the OpenAPI Definition JSON
-                    content:
-                        application/json:
-                            schema:
-                                type: object
-                "400":
-                    $ref: "#/components/responses/validation_failure"
-    /packages:
-        get:
-            description: Get a list of all Packages
-            operationId: getPackages
-            responses:
-                "200":
-                    description: An array of all Packages
-                    content:
-                        application/json:
-                            schema:
-                                type: array
-                                minItems: 0
-                                items:
-                                    $ref: "#/components/schemas/Package"
-                "400":
-                    $ref: "#/components/responses/validation_failure"
-    /packages/{package_id}:
-        get:
-            description: Get a specific Package by package_id
-            operationId: getPackageByID
-            responses:
-                "200":
-                    description: The Package with the requested package_id
-                    content:
-                        application/json:
-                            schema:
-                                $ref: "#/components/schemas/Package"
-                "400":
-                    $ref: "#/components/responses/validation_failure"
-                "404":
-                    description: The Package does not exist
-        parameters:
-            - name: package_id
-              in: path
-              required: true
+  /api-docs:
+    get:
+      description: Access the v1 OpenAPI Definition
+      operationId: serveDefinition
+      responses:
+        "200":
+          description: Serves the OpenAPI Definition JSON
+          content:
+            application/json:
               schema:
-                  type: integer
-    /packages/{package_id}/versions:
-        get:
-            description: Get all PackageVersions of a specific Package by package_id
-            operationId: getPackageVersions
-            responses:
-                "200":
-                    description: An array of all PackageVersions of the Package
-                    content:
-                        application/json:
-                            schema:
-                                type: array
-                                minItems: 0
-                                items:
-                                    $ref: "#/components/schemas/PackageVersion"
-                "400":
-                    $ref: "#/components/responses/validation_failure"
-        parameters:
-            - name: package_id
-              in: path
-              required: true
+                type: object
+        "400":
+          $ref: "#/components/responses/validation_failure"
+  /packages:
+    get:
+      description: Get a list of all Packages
+      operationId: getPackages
+      responses:
+        "200":
+          description: An array of all Packages
+          content:
+            application/json:
               schema:
-                  type: integer
-    /packages/{package_id}/versions/{version}:
-        get:
-            description: Get a specific PackageVersion of a Package by version
-            operationId: getPackageVersionByVersion
-            responses:
-                "200":
-                    description: ok
-                    content:
-                        application/json:
-                            schema:
-                                $ref: "#/components/schemas/PackageVersion"
-                "400":
-                    $ref: "#/components/responses/validation_failure"
-                "404":
-                    description: >-
-                        There is no PackageVersion with the supplied version for the Package
-                        with the supplied package_id
-        parameters:
-            - name: package_id
-              in: path
-              required: true
+                type: array
+                minItems: 0
+                items:
+                  $ref: "#/components/schemas/Package"
+        "400":
+          $ref: "#/components/responses/validation_failure"
+  /packages/{package_id}:
+    get:
+      description: Get a specific Package by package_id
+      operationId: getPackageByID
+      responses:
+        "200":
+          description: The Package with the requested package_id
+          content:
+            application/json:
               schema:
-                  type: integer
-            - name: version
-              in: path
-              required: true
+                $ref: "#/components/schemas/Package"
+        "400":
+          $ref: "#/components/responses/validation_failure"
+        "404":
+          description: The Package does not exist
+    parameters:
+      - name: package_id
+        in: path
+        required: true
+        schema:
+          type: integer
+  /packages/{package_id}/versions:
+    get:
+      description: Get all PackageVersions of a specific Package by package_id
+      operationId: getPackageVersions
+      responses:
+        "200":
+          description: An array of all PackageVersions of the Package
+          content:
+            application/json:
               schema:
-                  type: string
-                  pattern: >-
-                      ^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$
-    /plugins:
-        get:
-            description: Get a list of all Plugins
-            operationId: getPlugins
-            responses:
-                "200":
-                    description: An array of all Plugins
-                    content:
-                        application/json:
-                            schema:
-                                type: array
-                                minItems: 0
-                                items:
-                                    $ref: "#/components/schemas/Plugin"
-                "400":
-                    $ref: "#/components/responses/validation_failure"
-        post:
-            description: Add a Plugin to Empyry
-            operationId: postPlugins
-            requestBody:
-                required: true
-                content:
-                    application/json:
-                        schema:
-                            $ref: "#/components/schemas/Plugin"
-            responses:
-                "200":
-                    description: Successfully Added Plugin
-                    content:
-                        application/json:
-                            schema:
-                                $ref: "#/components/schemas/Plugin"
-                "400":
-                    $ref: "#/components/responses/validation_failure"
-    /plugins/{plugin_id}:
-        get:
-            description: Get a specific Plugin by plugin_id
-            operationId: getPluginByID
-            responses:
-                "200":
-                    description: The Package with the requested plugin_id
-                    content:
-                        application/json:
-                            schema:
-                                $ref: "#/components/schemas/Plugin"
-                "400":
-                    $ref: "#/components/responses/validation_failure"
-                "404":
-                    description: The Plugin does not exist
-        parameters:
-            - name: plugin_id
-              in: path
-              required: true
+                type: array
+                minItems: 0
+                items:
+                  $ref: "#/components/schemas/PackageVersion"
+        "400":
+          $ref: "#/components/responses/validation_failure"
+    parameters:
+      - name: package_id
+        in: path
+        required: true
+        schema:
+          type: integer
+  /packages/{package_id}/versions/{version}:
+    get:
+      description: Get a specific PackageVersion of a Package by version
+      operationId: getPackageVersionByVersion
+      responses:
+        "200":
+          description: ok
+          content:
+            application/json:
               schema:
-                  type: integer
-    /users:
-        get:
-            description: Get a list of all Users
-            operationId: getUsers
-            responses:
-                "200":
-                    description: An array of all Users
-                    content:
-                        application/json:
-                            schema:
-                                type: array
-                                minItems: 0
-                                items:
-                                    $ref: "#/components/schemas/User"
-                "400":
-                    $ref: "#/components/responses/validation_failure"
-        post:
-            description: Add a User to Empyry
-            operationId: postUsers
-            requestBody:
-                required: true
-                content:
-                    application/json:
-                        schema:
-                            $ref: "#/components/schemas/User"
-            responses:
-                "200":
-                    description: Successfully Added User
-                    content:
-                        application/json:
-                            schema:
-                                $ref: "#/components/schemas/User"
-                "400":
-                    $ref: "#/components/responses/validation_failure"
-    /users/{user_id}:
-        get:
-            description: Get a specific User by user_id
-            operationId: getUserByID
-            responses:
-                "200":
-                    description: The Package with the requested user_id
-                    content:
-                        application/json:
-                            schema:
-                                $ref: "#/components/schemas/User"
-                "400":
-                    $ref: "#/components/responses/validation_failure"
-                "404":
-                    description: The User does not exist
-        parameters:
-            - name: user_id
-              in: path
-              required: true
+                $ref: "#/components/schemas/PackageVersion"
+        "400":
+          $ref: "#/components/responses/validation_failure"
+        "404":
+          description: >-
+            There is no PackageVersion with the supplied version for the Package
+            with the supplied package_id
+    parameters:
+      - name: package_id
+        in: path
+        required: true
+        schema:
+          type: integer
+      - name: version
+        in: path
+        required: true
+        schema:
+          type: string
+          pattern: >-
+            ^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$
+  /plugins:
+    get:
+      description: Get a list of all Plugins
+      operationId: getPlugins
+      responses:
+        "200":
+          description: An array of all Plugins
+          content:
+            application/json:
               schema:
-                  type: integer
+                type: array
+                minItems: 0
+                items:
+                  $ref: "#/components/schemas/Plugin"
+        "400":
+          $ref: "#/components/responses/validation_failure"
+    post:
+      description: Add a Plugin to Empyry
+      operationId: postPlugins
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Plugin"
+      responses:
+        "200":
+          description: Successfully Added Plugin
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Plugin"
+        "400":
+          $ref: "#/components/responses/validation_failure"
+  /plugins/{plugin_id}:
+    get:
+      description: Get a specific Plugin by plugin_id
+      operationId: getPluginByID
+      responses:
+        "200":
+          description: The Package with the requested plugin_id
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Plugin"
+        "400":
+          $ref: "#/components/responses/validation_failure"
+        "404":
+          description: The Plugin does not exist
+    parameters:
+      - name: plugin_id
+        in: path
+        required: true
+        schema:
+          type: integer
+  /users:
+    get:
+      description: Get a list of all Users
+      operationId: getUsers
+      responses:
+        "200":
+          description: An array of all Users
+          content:
+            application/json:
+              schema:
+                type: array
+                minItems: 0
+                items:
+                  $ref: "#/components/schemas/User"
+        "400":
+          $ref: "#/components/responses/validation_failure"
+    post:
+      description: Add a User to Empyry
+      operationId: postUsers
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+      responses:
+        "200":
+          description: Successfully Added User
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "400":
+          $ref: "#/components/responses/validation_failure"
+  /users/{user_id}:
+    get:
+      description: Get a specific User by user_id
+      operationId: getUserByID
+      responses:
+        "200":
+          description: The Package with the requested user_id
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "400":
+          $ref: "#/components/responses/validation_failure"
+        "404":
+          description: The User does not exist
+    parameters:
+      - name: user_id
+        in: path
+        required: true
+        schema:
+          type: integer
 components:
-    responses:
-        validation_failure:
-            description: The request was not properly formatted
-            content:
-                application/json:
-                    schema:
-                        type: object
-                        properties:
-                            err:
-                                type: array
-                                items:
-                                    type: object
-                                    properties:
-                                        instancePath:
-                                            type: string
-                                        schemaPath:
-                                            type: string
-                                        keyword:
-                                            type: string
-                                        params:
-                                            type: object
-                                        message:
-                                            type: string
-    schemas:
-        Package:
+  responses:
+    validation_failure:
+      description: The request was not properly formatted
+      content:
+        application/json:
+          schema:
             type: object
             properties:
-                id:
-                    type: integer
-                    readOnly: true
-                name:
-                    type: string
-                description:
-                    type: string
-                    nullable: true
-                source:
-                    type: string
-                    nullable: true
-                home:
-                    type: string
-                    nullable: true
-                license:
-                    type: string
-                    nullable: true
-                created_at:
-                    type: string
-                    readOnly: true
-                updated_at:
-                    type: string
-                    readOnly: true
-        PackageVersion:
-            type: object
-            properties:
-                id:
-                    type: integer
-                    readOnly: true
-                package_id:
-                    type: string
-                    readOnly: true
-                version:
-                    type: string
-                digest:
-                    type: string
-                    nullable: true
-                created_at:
-                    type: string
-                    readOnly: true
-                updated_at:
-                    type: string
-                    readOnly: true
-        Plugin:
-            type: object
-            properties:
-                id:
-                    type: integer
-                    readOnly: true
-                name:
-                    type: string
-                type:
-                    type: string
-                location:
-                    type: string
-                version:
-                    type: string
-                    nullable: true
-                created_at:
-                    type: string
-                    readOnly: true
-                updated_at:
-                    type: string
-                    readOnly: true
-        User:
-            type: object
-            properties:
-                id:
-                    type: integer
-                    readOnly: true
-                username:
-                    type: string
-                email:
-                    type: string
-                created_at:
-                    type: string
-                    readOnly: true
-                updated_at:
-                    type: string
-                    readOnly: true
+              err:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    instancePath:
+                      type: string
+                    schemaPath:
+                      type: string
+                    keyword:
+                      type: string
+                    params:
+                      type: object
+                    message:
+                      type: string
+  schemas:
+    Package:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+        description:
+          type: string
+          nullable: true
+        source:
+          type: string
+          nullable: true
+        home:
+          type: string
+          nullable: true
+        license:
+          type: string
+          nullable: true
+        created_at:
+          type: string
+          readOnly: true
+        updated_at:
+          type: string
+          readOnly: true
+    PackageVersion:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        package_id:
+          type: string
+          readOnly: true
+        version:
+          type: string
+        digest:
+          type: string
+          nullable: true
+        created_at:
+          type: string
+          readOnly: true
+        updated_at:
+          type: string
+          readOnly: true
+    Plugin:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+        type:
+          type: string
+        location:
+          type: string
+        version:
+          type: string
+          nullable: true
+        created_at:
+          type: string
+          readOnly: true
+        updated_at:
+          type: string
+          readOnly: true
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        username:
+          type: string
+        email:
+          type: string
+        created_at:
+          type: string
+          readOnly: true
+        updated_at:
+          type: string
+          readOnly: true
