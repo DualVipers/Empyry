@@ -1,6 +1,10 @@
+import { Model } from "objection";
+
 import Base from "./Base.js";
 
-class Package extends Base {
+import Role from "./Role.js";
+
+class User extends Base {
     constructor() {
         super();
     }
@@ -8,6 +12,19 @@ class Package extends Base {
     static get tableName() {
         return "Users";
     }
+
+    static get relationMappings() {
+        return {
+            roles: {
+                relation: Model.HasManyRelation,
+                modelClass: Role,
+                join: {
+                    from: "Users.id",
+                    to: "Roles.user_id",
+                },
+            },
+        };
+    }
 }
 
-export default Package;
+export default User;

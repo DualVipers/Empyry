@@ -56,6 +56,64 @@ paths:
         required: true
         schema:
           type: integer
+  /packages/{package_id}/roles:
+    get:
+      description: Get all Roles of a specific Package by package_id
+      operationId: getRoles
+      responses:
+        "200":
+          description: An array of all Roles of the Package
+          content:
+            application/json:
+              schema:
+                type: array
+                minItems: 0
+                items:
+                  $ref: "#/components/schemas/Role"
+        "400":
+          $ref: "#/components/responses/validation_failure"
+    parameters:
+      - name: package_id
+        in: path
+        required: true
+        schema:
+          type: integer
+  /packages/{package_id}/roles/{user_id}:
+    get:
+      description: A Role for a specific User by user_id to a specific Package by package_id
+      operationId: getRoleByUser
+      responses:
+        "200":
+          description: A Role for the User of the Package
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Role"
+        "400":
+          $ref: "#/components/responses/validation_failure"
+    post:
+      description: Add a Role for a specific User by user_id to a specific Package by package_id
+      operationId: postRole
+      responses:
+        "200":
+          description: Successfully Added Role
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Role"
+        "400":
+          $ref: "#/components/responses/validation_failure"
+    parameters:
+      - name: package_id
+        in: path
+        required: true
+        schema:
+          type: integer
+      - name: user_id
+        in: path
+        required: true
+        schema:
+          type: integer
   /packages/{package_id}/versions:
     get:
       description: Get all PackageVersions of a specific Package by package_id
@@ -304,6 +362,24 @@ components:
         version:
           type: string
           nullable: true
+        created_at:
+          type: string
+          readOnly: true
+        updated_at:
+          type: string
+          readOnly: true
+    Role:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        package_id:
+          type: integer
+          readOnly: true
+        user_id:
+          type: integer
+          readOnly: true
         created_at:
           type: string
           readOnly: true

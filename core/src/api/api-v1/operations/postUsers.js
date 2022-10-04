@@ -2,7 +2,7 @@ import { User } from "../../../database.js";
 import logger from "../../../logger.js";
 
 export default async (c, req, res) => {
-    logger.debug(`Requested Add User ${c.request.body.name}`);
+    logger.debug(`Requested Add User ${c.request.body.username}`);
 
     const createdUser = await User.query()
         .insert({ password_hash: "123", ...c.request.body })

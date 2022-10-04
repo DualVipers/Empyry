@@ -181,6 +181,10 @@ export default (platformName) => {
                     name: packageName,
                     platform: platformName,
                 });
+
+                await requestedPackage.$relatedQuery("roles").insert({
+                    user_id: 0,
+                });
             } else if (requestedPackage.platform != platformName) {
                 logger.error(
                     `${platformName} Is Creating Trying To Create PackageVersion for ${packageName} But That Package Is For ${requestedPackage.platformName}`

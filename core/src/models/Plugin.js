@@ -1,6 +1,6 @@
 import Base from "./Base.js";
 
-class Package extends Base {
+class Plugin extends Base {
     constructor() {
         super();
     }
@@ -10,4 +10,4 @@ class Package extends Base {
     }
 }
 
-export default Package;
+export default Plugin;
