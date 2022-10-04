@@ -122,7 +122,10 @@ module.exports = class HelmPlugin {
         // Save Chart
         router.post(
             "/api/charts",
-            express.raw({ type: "application/x-www-form-urlencoded" }),
+            express.raw({
+                type: "application/x-www-form-urlencoded",
+                limit: "50mb",
+            }),
             upload.fields([
                 { name: "chart", maxCount: 1 },
                 { name: "prov", maxCount: 1 },
@@ -257,7 +260,10 @@ module.exports = class HelmPlugin {
         // Save Prov
         router.post(
             "/api/prov",
-            express.raw({ type: "application/x-www-form-urlencoded" }),
+            express.raw({
+                type: "application/x-www-form-urlencoded",
+                limit: "50mb",
+            }),
             async (req, res) => {
                 const prov = req.body;
 
