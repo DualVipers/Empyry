@@ -334,7 +334,7 @@ components:
           type: integer
           readOnly: true
         package_id:
-          type: string
+          type: integer
           readOnly: true
         version:
           type: string
