@@ -17,5 +17,11 @@ export default async (c, req, res) => {
         `Added Role\nFor Package:${c.request.params.package_id}\nFor User:${c.request.params.user_id}`
     );
 
-    res.status(200).json(createdRole);
+    res.status(200).json({
+        id: createdRole.id,
+        package_id: createdRole.package_id,
+        user_id: createdRole.user_id,
+        created_at: createdRole.created_at,
+        updated_at: createdRole.updated_at,
+    });
 };

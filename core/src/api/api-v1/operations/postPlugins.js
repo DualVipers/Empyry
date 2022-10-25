@@ -18,5 +18,13 @@ export default async (c, req, res) => {
 
     logger.debug(`Added Plugin: ${JSON.stringify(createdPlugin)}`);
 
-    res.status(200).json(createdPlugin);
+    res.status(200).json({
+        id: createdPlugin.id,
+        name: createdPlugin.name,
+        type: createdPlugin.type,
+        location: createdPlugin.location,
+        version: createdPlugin.version,
+        created_at: createdPlugin.created_at,
+        updated_at: createdPlugin.updated_at,
+    });
 };

@@ -17,5 +17,11 @@ export default async (c, req, res) => {
 
     logger.debug(`Added User: ${JSON.stringify(createdUser)}`);
 
-    res.status(200).json(createdUser);
+    res.status(200).json({
+        id: createdUser.id,
+        username: createdUser.username,
+        email: createdUser.email,
+        created_at: createdUser.created_at,
+        updated_at: createdUser.updated_at,
+    });
 };

@@ -12,5 +12,15 @@ export default async (c, req, res) => {
         }`
     );
 
-    res.status(200).json(roles);
+    res.status(200).json(
+        roles.map((role) => {
+            return {
+                id: role.id,
+                package_id: role.package_id,
+                user_id: role.user_id,
+                created_at: role.created_at,
+                updated_at: role.updated_at,
+            };
+        })
+    );
 };

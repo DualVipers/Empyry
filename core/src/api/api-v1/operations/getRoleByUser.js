@@ -15,7 +15,13 @@ export default async (c, req, res) => {
     );
 
     if (role) {
-        return res.status(200).json(role);
+        return res.status(200).json({
+            id: role.id,
+            package_id: role.package_id,
+            user_id: role.user_id,
+            created_at: role.created_at,
+            updated_at: role.updated_at,
+        });
     }
 
     res.status(404).json({ err: "user role not found" });
