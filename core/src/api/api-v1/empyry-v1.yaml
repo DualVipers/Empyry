@@ -394,6 +394,10 @@ components:
           readOnly: true
         username:
           type: string
+        password:
+          type: string
+          minLength: 1
+          writeOnly: true
         email:
           type: string
         created_at:
