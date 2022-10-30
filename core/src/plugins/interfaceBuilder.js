@@ -178,6 +178,48 @@ export default (platformName) => {
             return await load(packageName, version);
         },
 
+        canSavePackage: async (packageName, authentication) => {
+            if (!authentication.user_id) {
+                return false;
+            }
+
+            logger.debug(
+                `${platformName} Requested To Check Save ${packageName} By User ${authentication.user_id}`
+            );
+
+            let requestedPackage = await Package.query()
+                .where("name", packageName)
+                .first()
+                .select(
+                    "id",
+                    "name",
+                    "platform",
+                    "description",
+                    "source",
+                    "home",
+                    "license",
+                    "created_at",
+                    "updated_at"
+                );
+
+            if (!requestedPackage) {
+                return true;
+            } else if (requestedPackage.platform != platformName) {
+                return false;
+            }
+
+            const roles = await requestedPackage
+                .$relatedQuery("roles")
+                .where("user_id", authentication.user_id)
+                .select("id", "user_id");
+
+            if (roles.length < 1) {
+                return false;
+            }
+
+            return true;
+        },
+
         savePackage: async (packageName, version, data, authentication) => {
             if (!authentication.user_id) {
                 logger.error(

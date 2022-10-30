@@ -142,6 +142,22 @@ export type EmpyryInterface = {
     ): Promise<Buffer>;
 
     /**
+     * Checks if a User can save a PackageVersion to Empyry
+     *
+     * If the Package does not exist, it will be created.
+     *
+     * @param {string} name - The name of the Package
+     * @param {Authentication} authentication - The Authentication for the User saving a PackageVersion
+     *
+     * @returns {Promise<boolean>}
+     * @public
+     */
+    canSavePackage(
+        name: string,
+        authentication: Authentication
+    ): Promise<boolean>;
+
+    /**
      * Save a PackageVersion to Empyry
      *
      * If the Package does not exist, it will be created.
