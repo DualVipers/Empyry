@@ -9,8 +9,8 @@ import load from "../data/package/load.js";
 import save from "../data/package/save.js";
 import readFile from "../data/readFile.js";
 import saveFile from "../data/saveFile.js";
-import { verifyPass } from "../password.js";
-import { generateToken } from "../token.js";
+import { verify as verifyPass } from "../password.js";
+import { generate as generateToken } from "../token.js";
 
 export default (platformName) => {
     /**
@@ -20,6 +20,10 @@ export default (platformName) => {
         cacheDir: path.join(paths.cache, platformName),
 
         getPackages: async (authentication) => {
+            if (!authentication) {
+                authentication = { user_id: 0 };
+            }
+
             logger.debug(
                 `${platformName} Requested Packages For User ${authentication.user_id}`
             );
@@ -39,6 +43,10 @@ export default (platformName) => {
         },
 
         getPackage: async (packageName, authentication) => {
+            if (!authentication) {
+                authentication = { user_id: 0 };
+            }
+
             logger.debug(
                 `${platformName} Requested Package ${packageName} For User ${authentication.user_id}`
             );
@@ -60,6 +68,10 @@ export default (platformName) => {
         },
 
         getVersions: async (packageName, authentication) => {
+            if (!authentication) {
+                authentication = { user_id: 0 };
+            }
+
             logger.debug(
                 `${platformName} Requested PackageVersions For ${packageName} For User ${authentication.user_id}`
             );
@@ -85,6 +97,10 @@ export default (platformName) => {
         },
 
         getVersion: async (packageName, version, authentication) => {
+            if (!authentication) {
+                authentication = { user_id: 0 };
+            }
+
             logger.debug(
                 `${platformName} Requested Version ${version} for Package ${packageName} For User ${authentication.user_id}`
             );
@@ -121,6 +137,10 @@ export default (platformName) => {
         },
 
         getVersionData: async (packageName, version, authentication) => {
+            if (!authentication) {
+                authentication = { user_id: 0 };
+            }
+
             logger.debug(
                 `${platformName} Requested Version Data For v${version} Of ${packageName} For User ${authentication.user_id}`
             );
@@ -159,10 +179,6 @@ export default (platformName) => {
         },
 
         savePackage: async (packageName, version, data, authentication) => {
-            logger.debug(
-                `${platformName} Requested To Save v${version} Of ${packageName} For User ${authentication.user_id}`
-            );
-
             if (!authentication.user_id) {
                 logger.error(
                     `${platformName} Saving v${version} Of ${packageName} Requires Authentication`
@@ -172,6 +188,10 @@ export default (platformName) => {
                     `${platformName} Saving v${version} Of ${packageName} Requires Authentication`
                 );
             }
+
+            logger.debug(
+                `${platformName} Requested To Save v${version} Of ${packageName} For User ${authentication.user_id}`
+            );
 
             let requestedPackage = await Package.query()
                 .where("name", packageName)
