@@ -24,7 +24,14 @@ export default async (c, req, res) => {
     );
 
     if (packageVersion) {
-        return res.status(200).json(packageVersion);
+        return res.status(200).json({
+            id: packageVersion.id,
+            package_id: packageVersion.package_id,
+            version: packageVersion.version,
+            digest: packageVersion.digest,
+            created_at: packageVersion.updated_at,
+            updated_at: packageVersion.created_at,
+        });
     }
 
     res.status(404).json({ err: "package version not found" });

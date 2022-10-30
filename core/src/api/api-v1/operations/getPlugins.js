@@ -14,5 +14,17 @@ export default async (c, req, res) => {
 
     logger.debug(`Found Plugins: ${JSON.stringify(plugins)}`);
 
-    res.status(200).json(plugins);
+    res.status(200).json(
+        plugins.map((plugin) => {
+            return {
+                id: plugin.id,
+                name: plugin.name,
+                type: plugin.type,
+                location: plugin.location,
+                version: plugin.version,
+                created_at: plugin.created_at,
+                updated_at: plugin.updated_at,
+            };
+        })
+    );
 };

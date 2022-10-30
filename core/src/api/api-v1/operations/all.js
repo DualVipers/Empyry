@@ -9,10 +9,13 @@ import getRoles from "./getRoles.js";
 import getUserByID from "./getUserByID.js";
 import getUsers from "./getUsers.js";
 import notFound from "./notFound.js";
+import postAuthTokenByID from "./postAuthTokenByID.js";
 import postPlugins from "./postPlugins.js";
 import postRole from "./postRole.js";
 import postUsers from "./postUsers.js";
+import putUserPassword from "./putUserPassword.js";
 import serveDefinition from "./serveDefinition.js";
+import unauthorizedHandler from "./unauthorizedHandler.js";
 import validationFail from "./validationFail.js";
 
 export default {
@@ -27,9 +30,12 @@ export default {
     getUserByID,
     getUsers,
     notFound,
+    postAuthTokenByID,
     postPlugins,
     postRole,
     postUsers,
+    putUserPassword,
     serveDefinition,
+    unauthorizedHandler,
     validationFail,
 };

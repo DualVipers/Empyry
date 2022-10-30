@@ -19,5 +19,16 @@ export default async (c, req, res) => {
         )}\nFor Package: ${c.request.params.package_id}`
     );
 
-    res.status(200).json(packageVersions);
+    res.status(200).json(
+        packageVersions.map((packageVersion) => {
+            return {
+                id: packageVersion.id,
+                package_id: packageVersion.package_id,
+                version: packageVersion.version,
+                digest: packageVersion.digest,
+                created_at: packageVersion.updated_at,
+                updated_at: packageVersion.created_at,
+            };
+        })
+    );
 };

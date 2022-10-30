@@ -37,4 +37,18 @@ Open the option to POST `/plugins` and execute with the body:
 ```
 
 Once you restart the server, a fully working helm server will be on `helm.localhost:9000`.
-You can also use `swagger.localhost:9000` to look inside the brain of Empyry.
+You can also continue to use `swagger.localhost:9000` to look inside the brain of Empyry.
+
+## Creating Your First User
+
+Now, open the option to POST `/users`. Execute with this body, replacing the username, email, and password with your choices:
+
+```json
+{
+    "username": "<YOUR_EMAIL>",
+    "password": "<YOUR_PASSWORD>",
+    "email": "<YOU_EMAIL>"
+}
+```
+
+It will return the new `User`'s object. Make sure to remember the id of the new `User`.
