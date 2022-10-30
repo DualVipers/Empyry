@@ -6,6 +6,7 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 const { join, basename } = require("path");
 const { parse, stringify } = require("yaml");
+const authHeaderParse = require("auth-header").parse;
 
 const semverRegex =
     /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$/;
@@ -28,6 +29,27 @@ module.exports = class HelmPlugin {
 
         const router = express.Router();
 
+        // Header Authentication
+        router.use(async (req, res, next) => {
+            if (!req.get("authorization")) {
+                return next();
+            }
+
+            const auth = authHeaderParse(req.get("authorization"));
+
+            if (auth.scheme === "Basic") {
+                var [username, password] = Buffer(auth.token, "base64")
+                    .toString()
+                    .split(":", 2);
+
+                req.auth = await empyryInterface.authPass(username, password);
+            } else if (auth.scheme === "Bearer") {
+                req.auth = await empyryInterface.authToken(auth.token);
+            }
+
+            next();
+        });
+
         // Generate Index File
         router.get("/index.yaml", async (req, res) => {
             const indexFile = {
@@ -35,7 +57,7 @@ module.exports = class HelmPlugin {
                 generated: new Date(Date.now()),
             };
 
-            const packages = await empyryInterface.getPackages();
+            const packages = await empyryInterface.getPackages(req.auth);
 
             if (packages.length > 0) {
                 indexFile.entries = {};
@@ -46,7 +68,10 @@ module.exports = class HelmPlugin {
                     const name = packageData.name;
                     const packageYaml = [];
 
-                    const versions = await empyryInterface.getVersions(name);
+                    const versions = await empyryInterface.getVersions(
+                        name,
+                        req.auth
+                    );
 
                     versions.forEach((version) => {
                         packageYaml.push({
@@ -80,19 +105,20 @@ module.exports = class HelmPlugin {
             const matchedVersion = req.params.version.match(semverRegex);
 
             if (!matchedVersion) {
-                return res.status(400).send(null);
+                return res.sendStatus(400);
             }
 
             try {
                 const chartBuffer = await empyryInterface.getVersionData(
                     req.params.name,
-                    req.params.version
+                    req.params.version,
+                    req.auth
                 );
 
                 res.set("Content-Type", "application/gzip");
                 res.status(200).send(chartBuffer);
             } catch {
-                res.status(404).send(null);
+                res.sendStatus(404);
             }
         });
 
@@ -101,7 +127,7 @@ module.exports = class HelmPlugin {
             const matchedVersion = req.params.version.match(semverRegex);
 
             if (!matchedVersion) {
-                return res.status(400).send(null);
+                return res.sendStatus(400);
             }
 
             try {
@@ -115,7 +141,7 @@ module.exports = class HelmPlugin {
                 res.set("Content-Type", "application/gzip");
                 res.status(200).send(chartProv);
             } catch {
-                res.status(404).send(null);
+                res.sendStatus(404);
             }
         });
 
@@ -131,61 +157,77 @@ module.exports = class HelmPlugin {
                 { name: "prov", maxCount: 1 },
             ]),
             async (req, res) => {
+                if (!req.auth) {
+                    return res.status(401).json({ err: "No User Auth" });
+                }
+
+                let chartFile;
+                let provFile;
+
                 if (req.files) {
                     const files = req.files;
 
-                    let chartFile;
-                    let provFile;
-
                     chartFile = files["chart"][0].buffer;
-                    provFile = files["prov"][0].buffer;
 
-                    if (!chartFile || !provFile) {
-                        return res.status(400).send();
+                    if (files["prov"]) {
+                        provFile = files["prov"][0].buffer;
+
+                        if (!provFile) {
+                            return res.sendStatus(400);
+                        }
                     }
 
-                    const tempID = Date.now().toString();
-                    const tempDir = join(empyryInterface.cacheDir, tempID);
-                    const tempPath = join(
-                        empyryInterface.cacheDir,
-                        `${tempID}.tgz`
-                    );
-                    fs.ensureDirSync(tempDir);
+                    if (!chartFile) {
+                        return res.sendStatus(400);
+                    }
+                } else {
+                    chartFile = req.body;
+                }
 
-                    fs.writeFileSync(tempPath, chartFile);
+                const tempID = Date.now().toString();
+                const tempDir = join(empyryInterface.cacheDir, tempID);
+                const tempPath = join(
+                    empyryInterface.cacheDir,
+                    `${tempID}.tgz`
+                );
+                fs.ensureDirSync(tempDir);
 
-                    await tar.x({
-                        keep: true,
-                        file: tempPath,
-                        strip: 1,
-                        cwd: join(empyryInterface.cacheDir, tempID),
-                        filter: (path) =>
-                            basename(path) == "Chart.yaml" ||
-                            basename(path) == "Chart.yml",
-                    });
+                fs.writeFileSync(tempPath, chartFile);
 
-                    const chartYaml = parse(
-                        fs
-                            .readFileSync(
-                                join(
-                                    empyryInterface.cacheDir,
-                                    tempID,
-                                    "Chart.yaml"
-                                )
-                            )
-                            .toString()
-                    );
+                await tar.x({
+                    keep: true,
+                    file: tempPath,
+                    strip: 1,
+                    cwd: join(empyryInterface.cacheDir, tempID),
+                    filter: (path) =>
+                        basename(path) == "Chart.yaml" ||
+                        basename(path) == "Chart.yml",
+                });
 
+                const chartYaml = parse(
+                    fs
+                        .readFileSync(
+                            join(empyryInterface.cacheDir, tempID, "Chart.yaml")
+                        )
+                        .toString()
+                );
+
+                try {
                     await empyryInterface.savePackage(
                         chartYaml.name,
                         chartYaml.version,
-                        chartFile
+                        chartFile,
+                        req.auth
                     );
-
+                } catch {
                     fs.emptyDirSync(tempDir);
                     fs.rmdirSync(tempDir);
                     fs.rmSync(tempPath);
 
+                    return res.sendStatus(401);
+                }
+
+                if (provFile) {
                     let name = provFile
                         .toString()
                         .substring(provFile.toString().indexOf("\nname: ") + 7);
@@ -207,53 +249,13 @@ module.exports = class HelmPlugin {
                         join("prov", `${name}-${version}.tgz.prov`),
                         provFile
                     );
-                } else {
-                    const chartZipped = req.body;
-
-                    const tempID = Date.now().toString();
-                    const tempDir = join(empyryInterface.cacheDir, tempID);
-                    const tempPath = join(
-                        empyryInterface.cacheDir,
-                        `${tempID}.tgz`
-                    );
-                    fs.ensureDirSync(tempDir);
-
-                    fs.writeFileSync(tempPath, chartZipped);
-
-                    await tar.x({
-                        keep: true,
-                        file: tempPath,
-                        strip: 1,
-                        cwd: join(empyryInterface.cacheDir, tempID),
-                        filter: (path) =>
-                            basename(path) == "Chart.yaml" ||
-                            basename(path) == "Chart.yml",
-                    });
-
-                    const chartYaml = parse(
-                        fs
-                            .readFileSync(
-                                join(
-                                    empyryInterface.cacheDir,
-                                    tempID,
-                                    "Chart.yaml"
-                                )
-                            )
-                            .toString()
-                    );
-
-                    await empyryInterface.savePackage(
-                        chartYaml.name,
-                        chartYaml.version,
-                        chartZipped
-                    );
-
-                    fs.emptyDirSync(tempDir);
-                    fs.rmdirSync(tempDir);
-                    fs.rmSync(tempPath);
                 }
 
-                res.status(200).send(null);
+                fs.emptyDirSync(tempDir);
+                fs.rmdirSync(tempDir);
+                fs.rmSync(tempPath);
+
+                res.sendStatus(200);
             }
         );
 
@@ -265,6 +267,10 @@ module.exports = class HelmPlugin {
                 limit: "50mb",
             }),
             async (req, res) => {
+                if (!req.auth) {
+                    return res.status(401).json({ err: "No User Auth" });
+                }
+
                 const prov = req.body;
 
                 let name = prov
@@ -281,6 +287,10 @@ module.exports = class HelmPlugin {
                     0,
                     version.toString().indexOf("\n")
                 );
+
+                if (!(await empyryInterface.canSavePackage(name, req.auth))) {
+                    return res.sendStatus(401);
+                }
 
                 await empyryInterface.saveFile(
                     join("prov", `${name}-${version}.tgz.prov`),
