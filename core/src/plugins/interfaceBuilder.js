@@ -338,7 +338,7 @@ export default (platformName) => {
                 return;
             }
 
-            if (!(await verifyPass(foundUser.password_hash, password))) {
+            if (await verifyPass(foundUser.password_hash, password)) {
                 return { user_id: foundUser.id };
             }
         },
@@ -362,7 +362,7 @@ export default (platformName) => {
                 return;
             }
 
-            if (!(await verifyPass(foundUser.password_hash, password))) {
+            if (await verifyPass(foundUser.password_hash, password)) {
                 return { user_id: foundUser.id };
             }
         },
