@@ -1,7 +1,7 @@
 import path, { join } from "path";
 import fs from "fs-extra";
 
-import { Package } from "../database.js";
+import { Package, Token, User } from "../database.js";
 import logger from "../logger.js";
 import paths from "../paths.js";
 import digest from "../data/package/digest.js";
@@ -9,6 +9,8 @@ import load from "../data/package/load.js";
 import save from "../data/package/save.js";
 import readFile from "../data/readFile.js";
 import saveFile from "../data/saveFile.js";
+import { verifyPass } from "../password.js";
+import { generateToken } from "../token.js";
 
 export default (platformName) => {
     /**
@@ -17,8 +19,10 @@ export default (platformName) => {
     return {
         cacheDir: path.join(paths.cache, platformName),
 
-        getPackages: async () => {
-            logger.debug(`${platformName} Requested Packages`);
+        getPackages: async (authentication) => {
+            logger.debug(
+                `${platformName} Requested Packages For User ${authentication.user_id}`
+            );
 
             return await Package.query()
                 .where("platform", platformName)
@@ -34,8 +38,10 @@ export default (platformName) => {
                 );
         },
 
-        getPackage: async (packageName) => {
-            logger.debug(`${platformName} Requested Package ${packageName}`);
+        getPackage: async (packageName, authentication) => {
+            logger.debug(
+                `${platformName} Requested Package ${packageName} For User ${authentication.user_id}`
+            );
 
             return await Package.query()
                 .where("platform", platformName)
@@ -53,9 +59,9 @@ export default (platformName) => {
                 );
         },
 
-        getVersions: async (packageName) => {
+        getVersions: async (packageName, authentication) => {
             logger.debug(
-                `${platformName} Requested PackageVersions For ${packageName}`
+                `${platformName} Requested PackageVersions For ${packageName} For User ${authentication.user_id}`
             );
 
             const requestedPackage = await Package.query()
@@ -78,9 +84,9 @@ export default (platformName) => {
                 .select("id", "version", "digest", "created_at", "updated_at");
         },
 
-        getVersion: async (packageName, version) => {
+        getVersion: async (packageName, version, authentication) => {
             logger.debug(
-                `${platformName} Requested Version ${version} for Package ${packageName}`
+                `${platformName} Requested Version ${version} for Package ${packageName} For User ${authentication.user_id}`
             );
 
             const requestedPackage = await Package.query()
@@ -114,9 +120,9 @@ export default (platformName) => {
                 .select("id", "version", "digest", "created_at", "updated_at");
         },
 
-        getVersionData: async (packageName, version) => {
+        getVersionData: async (packageName, version, authentication) => {
             logger.debug(
-                `${platformName} Requested Version Data For v${version} of ${packageName}`
+                `${platformName} Requested Version Data For v${version} Of ${packageName} For User ${authentication.user_id}`
             );
 
             const requestedPackage = await Package.query()
@@ -152,10 +158,20 @@ export default (platformName) => {
             return await load(packageName, version);
         },
 
-        savePackage: async (packageName, version, data) => {
+        savePackage: async (packageName, version, data, authentication) => {
             logger.debug(
-                `${platformName} Requested To Save v${version} of ${packageName}`
+                `${platformName} Requested To Save v${version} Of ${packageName} For User ${authentication.user_id}`
             );
+
+            if (!authentication.user_id) {
+                logger.error(
+                    `${platformName} Saving v${version} Of ${packageName} Requires Authentication`
+                );
+
+                throw Error(
+                    `${platformName} Saving v${version} Of ${packageName} Requires Authentication`
+                );
+            }
 
             let requestedPackage = await Package.query()
                 .where("name", packageName)
@@ -174,7 +190,7 @@ export default (platformName) => {
 
             if (!requestedPackage) {
                 logger.info(
-                    `${platformName} Is Creating Package ${packageName}`
+                    `${platformName} Is Creating Package ${packageName} For User ${authentication.user_id}`
                 );
 
                 requestedPackage = await Package.query().insert({
@@ -183,7 +199,7 @@ export default (platformName) => {
                 });
 
                 await requestedPackage.$relatedQuery("roles").insert({
-                    user_id: 0,
+                    user_id: authentication.user_id,
                 });
             } else if (requestedPackage.platform != platformName) {
                 logger.error(
@@ -195,6 +211,21 @@ export default (platformName) => {
                 );
             }
 
+            const roles = await requestedPackage
+                .$relatedQuery("roles")
+                .where("user_id", authentication.user_id)
+                .select("id", "user_id");
+
+            if (roles.length < 1) {
+                logger.error(
+                    `${platformName} User ${authentication.user_id} Can Not Save v${version} Of ${packageName}`
+                );
+
+                throw new Error(
+                    `${platformName} User ${authentication.user_id} Can Not Save v${version} Of ${packageName}`
+                );
+            }
+
             await save(data, packageName, version);
 
             await requestedPackage.$relatedQuery("versions").insert({
@@ -202,7 +233,7 @@ export default (platformName) => {
                 digest: await digest(packageName, version),
             });
 
-            logger.debug(`${platformName} Saved v${version} of ${packageName}`);
+            logger.debug(`${platformName} Saved v${version} Of ${packageName}`);
         },
 
         readFile: async (path) => {
@@ -226,6 +257,100 @@ export default (platformName) => {
                 logger.error(`${platformName} Could Not Delete File ${path}`);
                 return;
             }
+        },
+
+        authEmail: async (email, password) => {
+            logger.debug(
+                `${platformName} Requested To Authenticate ${email} Using Password`
+            );
+
+            const foundUser = await User.query()
+                .findOne({ email })
+                .select("id", "username", "password_hash");
+
+            logger.debug(
+                `Found User: ${JSON.stringify(foundUser)}\nFor Email: ${email}`
+            );
+
+            if (!foundUser) {
+                return;
+            }
+
+            if (!(await verifyPass(foundUser.password_hash, password))) {
+                return { user_id: foundUser.id };
+            }
+        },
+
+        authPass: async (username, password) => {
+            logger.debug(
+                `${platformName} Requested To Authenticate ${username} Using Password`
+            );
+
+            const foundUser = await User.query()
+                .findOne({ username })
+                .select("id", "username", "password_hash");
+
+            logger.debug(
+                `Found User: ${JSON.stringify(
+                    foundUser
+                )}\nFor Username: ${username}`
+            );
+
+            if (!foundUser) {
+                return;
+            }
+
+            if (!(await verifyPass(foundUser.password_hash, password))) {
+                return { user_id: foundUser.id };
+            }
+        },
+
+        generateAuthToken: async (auth, length, expire) => {
+            logger.debug(
+                `${platformName} Requested To Generate Token for ${auth.user_id}`
+            );
+
+            const foundUser = await User.query()
+                .findById(auth.user_id)
+                .select("id", "username", "password_hash");
+
+            logger.debug(
+                `Found User: ${JSON.stringify(foundUser)}\nFor: ${auth.user_id}`
+            );
+
+            if (!foundUser) {
+                return;
+            }
+
+            const generatedToken = generateToken(length ?? 20);
+
+            const createdToken = await foundUser
+                .$relatedQuery("tokens")
+                .insert({
+                    token: generatedToken,
+                    expire:
+                        expire ??
+                        Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 30, // 30 days
+                })
+                .select("id");
+
+            logger.debug(`Added Token: ${JSON.stringify(createdToken)}`);
+        },
+
+        authToken: async (authToken) => {
+            logger.debug(
+                `${platformName} Requested To Authenticate Token ${authToken}`
+            );
+
+            const token = await Token.query()
+                .findOne("token", authToken)
+                .select("user_id");
+
+            if (!token) {
+                return;
+            }
+
+            return { user_id: token.user_id };
         },
     };
 };
