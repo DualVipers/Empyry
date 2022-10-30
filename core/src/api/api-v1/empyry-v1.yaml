@@ -276,7 +276,77 @@ paths:
         required: true
         schema:
           type: integer
+  /users/{user_id}/password:
+    put:
+      description: Update Password for User user_id
+      operationId: putUserPassword
+      security:
+        - tokenAuth: []
+      requestBody:
+        required: true
+        description: The User's password
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                password:
+                  type: string
+                  minLength: 1
+      responses:
+        "200":
+          description: The password was updated
+        "400":
+          $ref: "#/components/responses/validation_failure"
+        "401":
+          description: The request was unauthenticated
+    parameters:
+      - name: user_id
+        in: path
+        required: true
+        schema:
+          type: integer
+  /users/{user_id}/token:
+    post:
+      description: Generate auth token for User user_id
+      operationId: postAuthTokenByID
+      requestBody:
+        required: true
+        description: The User's password
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                password:
+                  type: string
+                  minLength: 1
+      responses:
+        "200":
+          description: The User was authenticated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+        "400":
+          $ref: "#/components/responses/validation_failure"
+        "401":
+          description: The User or supplied password is not good
+    parameters:
+      - name: user_id
+        in: path
+        required: true
+        schema:
+          type: integer
 components:
+  securitySchemes:
+    tokenAuth:
+      type: apiKey
+      in: header
+      name: X-API-Token
   responses:
     validation_failure:
       description: The request was not properly formatted
