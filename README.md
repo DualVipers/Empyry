@@ -20,9 +20,9 @@ Empyry replaces all of these registries, centralizing your private and public de
 -   🐳 Natively Containerized
 -   🚀 Easy Setup Through Browser **_Coming Soon_**
 -   🖼️ User and Admin Site **_Coming Soon_**
--   🔒 Simple Unified User and Authentication System **_Coming Soon_**
+-   🔒 Simple Unified User and Authentication System
 -   ⚙️ Easy to Use Plugin API To Support Package Managers
--   🌎 Wide Range of Official Supported Package Managers **_Coming Soon_**
+-   🌎 Wide Range of Official Supported Package Managers **_Expanding_**
 -   🚀 Single and High Availability Kubernetes Modes **_Coming Soon_**
 
 ## Getting Started
