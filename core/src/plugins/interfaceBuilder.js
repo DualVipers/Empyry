@@ -208,6 +208,10 @@ export default (platformName) => {
                 return false;
             }
 
+            if (authentication.admin) {
+                return true;
+            }
+
             const roles = await requestedPackage
                 .$relatedQuery("roles")
                 .where("user_id", authentication.user_id)
@@ -278,7 +282,7 @@ export default (platformName) => {
                 .where("user_id", authentication.user_id)
                 .select("id", "user_id");
 
-            if (roles.length < 1) {
+            if (roles.length < 1 && !authentication.admin) {
                 logger.error(
                     `${platformName} User ${authentication.user_id} Can Not Save v${version} Of ${packageName}`
                 );
@@ -339,7 +343,7 @@ export default (platformName) => {
             }
 
             if (await verifyPass(foundUser.password_hash, password)) {
-                return { user_id: foundUser.id };
+                return { user_id: foundUser.id, admin: foundUser.admin };
             }
         },
 
@@ -363,7 +367,7 @@ export default (platformName) => {
             }
 
             if (await verifyPass(foundUser.password_hash, password)) {
-                return { user_id: foundUser.id };
+                return { user_id: foundUser.id, admin: foundUser.admin };
             }
         },
 
@@ -413,7 +417,7 @@ export default (platformName) => {
                 return;
             }
 
-            return { user_id: token.user_id };
+            return { user_id: token.user_id, admin: token.admin };
         },
     };
 };
