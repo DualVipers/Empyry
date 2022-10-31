@@ -8,7 +8,7 @@ export default async (c, req, res) => {
 
     const foundUser = await User.query()
         .findById(c.request.params.user_id)
-        .select("id", "username", "password_hash");
+        .select("id", "username", "admin", "password_hash");
 
     logger.debug(
         `Found User: ${JSON.stringify(foundUser)}\nFor ID: ${
@@ -31,6 +31,7 @@ export default async (c, req, res) => {
         .$relatedQuery("tokens")
         .insert({
             token: generatedToken,
+            admin: foundUser.admin,
             expire: Math.floor(Date.now() / 1000) + 60 * 60 * 24, // 1 day
         })
         .select("id");

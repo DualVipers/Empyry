@@ -4,7 +4,7 @@ import logger from "../../../logger.js";
 export default async (c, req, res) => {
     const foundUser = await User.query()
         .findById(c.request.params.user_id)
-        .select("id", "username", "email", "created_at", "updated_at");
+        .select("id", "username", "email", "admin", "created_at", "updated_at");
 
     logger.debug(
         `Found User: ${JSON.stringify(foundUser)}\nFor ID: ${
@@ -17,6 +17,7 @@ export default async (c, req, res) => {
             id: foundUser.id,
             username: foundUser.username,
             email: foundUser.email,
+            admin: foundUser.admin,
             created_at: foundUser.created_at,
             updated_at: foundUser.updated_at,
         });

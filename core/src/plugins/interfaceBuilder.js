@@ -208,6 +208,10 @@ export default (platformName) => {
                 return false;
             }
 
+            if (authentication.admin) {
+                return true;
+            }
+
             const roles = await requestedPackage
                 .$relatedQuery("roles")
                 .where("user_id", authentication.user_id)
@@ -278,7 +282,7 @@ export default (platformName) => {
                 .where("user_id", authentication.user_id)
                 .select("id", "user_id");
 
-            if (roles.length < 1) {
+            if (roles.length < 1 && !authentication.admin) {
                 logger.error(
                     `${platformName} User ${authentication.user_id} Can Not Save v${version} Of ${packageName}`
                 );
@@ -339,7 +343,7 @@ export default (platformName) => {
             }
 
             if (await verifyPass(foundUser.password_hash, password)) {
-                return { user_id: foundUser.id };
+                return { user_id: foundUser.id, admin: foundUser.admin };
             }
         },
 
@@ -363,7 +367,7 @@ export default (platformName) => {
             }
 
             if (await verifyPass(foundUser.password_hash, password)) {
-                return { user_id: foundUser.id };
+                return { user_id: foundUser.id, admin: foundUser.admin };
             }
         },
 
@@ -374,7 +378,7 @@ export default (platformName) => {
 
             const foundUser = await User.query()
                 .findById(auth.user_id)
-                .select("id", "username", "password_hash");
+                .select("id", "username", "admin", "password_hash");
 
             logger.debug(
                 `Found User: ${JSON.stringify(foundUser)}\nFor: ${auth.user_id}`
@@ -390,6 +394,7 @@ export default (platformName) => {
                 .$relatedQuery("tokens")
                 .insert({
                     token: generatedToken,
+                    admin: foundUser.admin,
                     expire:
                         expire ??
                         Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 30, // 30 days
@@ -412,7 +417,7 @@ export default (platformName) => {
                 return;
             }
 
-            return { user_id: token.user_id };
+            return { user_id: token.user_id, admin: token.admin };
         },
     };
 };

@@ -9,13 +9,14 @@ export default async (c, req) => {
 
     const token = await Token.query()
         .findOne("token", authToken)
-        .select("user_id");
+        .select("user_id", "admin");
 
     if (!token) {
         return false;
     }
 
     req.user = token.user_id;
+    req.admin = token.admin;
 
     return true;
 };

@@ -6,6 +6,7 @@ export default async (c, req, res) => {
         "id",
         "username",
         "email",
+        "admin",
         "created_at",
         "updated_at"
     );
@@ -18,6 +19,7 @@ export default async (c, req, res) => {
                 id: user.id,
                 username: user.username,
                 email: user.email,
+                admin: user.admin,
                 created_at: user.created_at,
                 updated_at: user.updated_at,
             };
