@@ -470,6 +470,9 @@ components:
           writeOnly: true
         email:
           type: string
+        admin:
+          type: boolean
+          description: Only can be written by an Admin
         created_at:
           type: string
           readOnly: true

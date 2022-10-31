@@ -12,7 +12,12 @@ export default async (c, req, res) => {
     c.request.body.password = undefined;
 
     const createdUser = await User.query()
-        .insert({ password_hash: password_hash, ...c.request.body })
+        .insert({
+            password_hash: password_hash,
+            username: c.request.body.username,
+            email: c.request.body.email,
+            admin: c.request.body.admin && req.admin,
+        })
         .select("id", "username", "email", "created_at", "updated_at");
 
     logger.debug(`Added User: ${JSON.stringify(createdUser)}`);
@@ -21,6 +26,7 @@ export default async (c, req, res) => {
         id: createdUser.id,
         username: createdUser.username,
         email: createdUser.email,
+        admin: createdUser.admin,
         created_at: createdUser.created_at,
         updated_at: createdUser.updated_at,
     });
