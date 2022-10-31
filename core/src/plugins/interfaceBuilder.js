@@ -374,7 +374,7 @@ export default (platformName) => {
 
             const foundUser = await User.query()
                 .findById(auth.user_id)
-                .select("id", "username", "password_hash");
+                .select("id", "username", "admin", "password_hash");
 
             logger.debug(
                 `Found User: ${JSON.stringify(foundUser)}\nFor: ${auth.user_id}`
@@ -390,6 +390,7 @@ export default (platformName) => {
                 .$relatedQuery("tokens")
                 .insert({
                     token: generatedToken,
+                    admin: foundUser.admin,
                     expire:
                         expire ??
                         Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 30, // 30 days
