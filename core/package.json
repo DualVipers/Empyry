@@ -1,6 +1,6 @@
 {
     "name": "@empyry/core",
-    "version": "0.0.1-beta.0",
+    "version": "0.0.1",
     "description": "The core of Empyry",
     "private": true,
     "type": "module",
@@ -29,7 +29,7 @@
         "waymaker": "0.1.0"
     },
     "devDependencies": {
-        "@empyry/types": "^0.0.1-beta.0",
+        "@empyry/types": "0.0.1",
         "yarn-audit-fix": "9.3.6"
     },
     "workspaces": {

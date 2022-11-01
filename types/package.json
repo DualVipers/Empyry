@@ -1,6 +1,6 @@
 {
     "name": "@empyry/types",
-    "version": "0.0.1-beta.0",
+    "version": "0.0.1",
     "description": "The types for an Empyry plugin",
     "author": "Dual Vipers",
     "license": "Apache-2.0",

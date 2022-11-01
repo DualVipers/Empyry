@@ -47,7 +47,7 @@ Revisit the page you used to create the first regular user. Open the option to P
     "name": "@empyry/helm",
     "type": "npm",
     "location": "https://registry.npmjs.org",
-    "version": "0.1.0"
+    "version": "0.0.1"
 }
 ```
 
