@@ -1,6 +1,8 @@
 import Knex from "knex";
 import { Model } from "objection";
 import { join } from "path";
+import { User } from "./database.js";
+import { hash } from "./password.js";
 
 import logger from "./logger.js";
 import paths from "./paths.js";
@@ -31,7 +33,21 @@ if (pending.length > 0 && process.env.MIGRATION != "true") {
 
 export default knex;
 
-export const runMigration = () =>
-    knex.migrate.latest({ directory: "./src/migrations" });
+export const runMigration = async () => {
+    await knex.migrate.latest({ directory: "./src/migrations" });
+
+    const rows = (await User.query().count())[0]["count(*)"];
+
+    if (rows < 1) {
+        logger.info(`Creating Admin User ${"admin"}`);
+
+        await User.query().insert({
+            username: "admin",
+            password_hash: await hash("admin"),
+            email: "admin@example.com",
+            admin: true,
+        });
+    }
+};
 
 export * from "./models/all.js";
